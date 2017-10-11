@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter
-// @version 0.6.0b
+// @version 0.6.0c
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -31,10 +31,10 @@ function runScript(){
         useTorrentColoring : false,
         //Tag types to use
         useGoodTags : true,
-useLovedTags : true,
+		useLovedTags : true,
         usePerformerTags : true,
-useLoveperfTags : true,
-useNewperfTags : true,
+		useLoveperfTags : true,
+		useNewperfTags : true,
         useBadTags : true,
         useTerribleTags : false,
         useUselessTags : false
@@ -54,10 +54,10 @@ useNewperfTags : true,
     if(!settings.tags){
         settings.tags = {
             good : getValue("good_tags", "").split(' '),
-loved : getValue("loved_tags", "").split(' '),
+			loved : getValue("loved_tags", "").split(' '),
             performer : getValue("performer_tags", "").split(' '),
-loveperf : getValue("loveperf_tags", "").split(' '),
-newperf : getValue("newperf_tags", "").split(' '),
+			loveperf : getValue("loveperf_tags", "").split(' '),
+			newperf : getValue("newperf_tags", "").split(' '),
             bad : getValue("bad_tags", "").split(' '),
             terrible : getValue("terrible_tags", "").split(' '),
             useless : getValue("useless_tags", "").split(' ')
@@ -73,10 +73,10 @@ newperf : getValue("newperf_tags", "").split(' '),
         "<ul id='s-conf-tabs'>" +
         "<li><h2><a class='s-conf-tab s-selected' data-page='s-conf-general'>General</a></h2></li>" +
         "<li><h2><a class='s-conf-tab' data-page='s-conf-good-tags'>Liked Tags</a></h2></li>" +
-"<li><h2><a class='s-conf-tab' data-page='s-conf-loved-tags'>Loved Tags</a></h2></li>" +
+		"<li><h2><a class='s-conf-tab' data-page='s-conf-loved-tags'>Loved Tags</a></h2></li>" +
         "<li><h2><a class='s-conf-tab' data-page='s-conf-Performer-tags'>Performer Tags</a></h2></li>" +
-"<li><h2><a class='s-conf-tab' data-page='s-conf-loveperf-tags'>Loved Performer Tags</a></h2></li>" +
-"<li><h2><a class='s-conf-tab' data-page='s-conf-newperf-tags'>New Performer Tags</a></h2></li>" +
+		"<li><h2><a class='s-conf-tab' data-page='s-conf-loveperf-tags'>Loved Performer Tags</a></h2></li>" +
+		"<li><h2><a class='s-conf-tab' data-page='s-conf-newperf-tags'>New Performer Tags</a></h2></li>" +
         "<li><h2><a class='s-conf-tab' data-page='s-conf-bad-tags'>Disliked Tags</a></h2></li>" +
         "<li><h2><a class='s-conf-tab' data-page='s-conf-terrible-tags'>Blacklisted Tags</a></h2></li>" +
         "<li><h2><a class='s-conf-tab' data-page='s-conf-useless-tags'>Useless Tags</a></h2></li>" +
@@ -88,10 +88,10 @@ newperf : getValue("newperf_tags", "").split(' '),
         "<br/><label><input class='s-conf-gen-checkbox' type='checkbox' name='truncateTags'/> Automatically truncate long tags on torrent details page</label>" +
         "<br/><h2>Enable/Disable Tag Types:</h2>" +
         "<label><input class='s-conf-gen-checkbox' type='checkbox' name='useGoodTags'/> Use Liked Tag Type</label>" +
-"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useLovedTags'/> Use Loved Tag Type</label>" +
+		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useLovedTags'/> Use Loved Tag Type</label>" +
         "<label><input class='s-conf-gen-checkbox' type='checkbox' name='usePerformerTags'/> Use Performer Tag Type</label>" +
-"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useLoveperfTags'/> Use Loved Performer Tag Type</label>" +
-"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useNewperfTags'/> Use New Performer Tag Type</label>" +
+		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useLoveperfTags'/> Use Loved Performer Tag Type</label>" +
+		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useNewperfTags'/> Use New Performer Tag Type</label>" +
         "<label><input class='s-conf-gen-checkbox' type='checkbox' name='useBadTags'/> Use Disliked Tag Type</label>" +
         "<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTerribleTags'/> Use Blacklisted Tag Type. Does not work with collapsed duplicates user script</label>" +
         "<label><input class='s-conf-gen-checkbox' type='checkbox' name='useUselessTags'/> Use Useless Tag Type</label>" +
@@ -142,7 +142,7 @@ newperf : getValue("newperf_tags", "").split(' '),
         "<label><h2>Performer Tags - If enabled, these tags will be highlighted blue:</h2>" +
         "<textarea readonly id='s-conf-text-performer' class='s-conf-tag-txtarea'></textarea></label>" +
         "</div>" +
-"<div class='s-conf-page' id='s-conf-loveperf-tags'>" +
+		"<div class='s-conf-page' id='s-conf-loveperf-tags'>" +
         "<label title='Space-separated. big.tits also saves bigtits automatically'>Add Loved Performer Tags:<br/>" +
         "<input id='s-conf-add-loveperf' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
         "<input class='s-conf-add-btn' data-type='loveperf' value='Add Tags' type='button'/>" +
@@ -154,7 +154,7 @@ newperf : getValue("newperf_tags", "").split(' '),
         "<label><h2>Loved Performer Tags - If enabled, these tags will be highlighted cyan:</h2>" +
         "<textarea readonly id='s-conf-text-loveperf' class='s-conf-tag-txtarea'></textarea></label>" +
         "</div>" +
-"<div class='s-conf-page' id='s-conf-newperf-tags'>" +
+		"<div class='s-conf-page' id='s-conf-newperf-tags'>" +
         "<label title='Space-separated. big.tits also saves bigtits automatically'>Add New Performers Tags:<br/>" +
         "<input id='s-conf-add-newperf' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
         "<input class='s-conf-add-btn' data-type='newperf' value='Add Tags' type='button'/>" +
@@ -248,9 +248,9 @@ newperf : getValue("newperf_tags", "").split(' '),
         "span.s-tag.s-loved> a{color:#000000}" +
         "span.s-tag.s-performer{float:none; background:#9fcaf9; border-bottom:1px solid #135300; padding:0px 4px; border-radius:16px; font:bold;}" +
         "span.s-tag.s-performer> a{color:#000000}" +
-"span.s-tag.s-loveperf{float:none; background:#00f7ea; border-bottom:1px solid #135300; padding:0px 4px; border-radius:16px; font:bold;}" +
+		"span.s-tag.s-loveperf{float:none; background:#00f7ea; border-bottom:1px solid #135300; padding:0px 4px; border-radius:16px; font:bold;}" +
         "span.s-tag.s-loveperf> a{color:#000000}" +
-"span.s-tag.s-newperf{float:none; background:#f7d600; border-bottom:1px solid #135300; padding:0px 4px; border-radius:16px; font:bold;}" +
+		"span.s-tag.s-newperf{float:none; background:#f7d600; border-bottom:1px solid #135300; padding:0px 4px; border-radius:16px; font:bold;}" +
         "span.s-tag.s-newperf> a{color:#000000}" +
         "span.s-tag.s-bad{float:none;background:#F3AAAA; border-bottom:1px solid #840000; padding:0px 4px; border-radius:16px; font:bold;}" +
         "span.s-tag.s-bad> a{color:#000000}" +
@@ -276,10 +276,10 @@ newperf : getValue("newperf_tags", "").split(' '),
         ".s-button:hover{opacity:1;}" +
         ".s-remove-good, .s-remove-performer, .s-remove-loveperf, .s-remove-bad, .s-remove-terrible, .s-remove-useless, .s-add-useless{line-height:11px;}" +
         ".s-add-good, .s-remove-good{background:#3D9949; border:1px solid #135300;}" +
-".s-add-loved, .s-remove-loved{background:#ad00f7; border:1px solid #135300;}" +
+		".s-add-loved, .s-remove-loved{background:#ad00f7; border:1px solid #135300;}" +
         ".s-add-performer, .s-remove-performer{background:#5485bc; border:1px solid #135300;}" +
-".s-add-loveperf, .s-remove-loveperf{background:#00f7ea; border:1px solid #135300;}" +
-".s-add-newperf, .s-remove-newperf{background:#f7d600; border:1px solid #135300;}" +
+		".s-add-loveperf, .s-remove-loveperf{background:#00f7ea; border:1px solid #135300;}" +
+		".s-add-newperf, .s-remove-newperf{background:#f7d600; border:1px solid #135300;}" +
         ".s-add-bad, .s-remove-bad{background:#9E3333; border:1px solid #840000;}" +
         ".s-add-terrible, .s-remove-terrible{background:#333; border:1px solid #000;}" +
         ".s-add-useless, .s-remove-useless{background:#888; border:1px solid #444;}" +
@@ -288,7 +288,7 @@ newperf : getValue("newperf_tags", "").split(' '),
         ".s-tag .s-add-good, .s-tag .s-add-performer, .s-tag .s-add-newperf, .s-tag .s-add-bad{display:block}" +
         ".s-tag.s-good .s-button, .s-tag.s-loved .s-button, .s-tag.s-performer .s-button, .s-tag.s-loveperf .s-button, .s-tag.s-newperf .s-button, .s-tag.s-bad .s-button, .s-tag.s-terrible .s-button{display:none}" +
         ".s-tag.s-good .s-button.s-remove-good, .s-tag.s-loved .s-button.s-remove-loved, .s-tag.s-performer .s-button.s-remove-performer, .s-tag.s-loveperf .s-button.s-remove-loveperf, .s-tag.s-newperf .s-button.s-remove-newperf, .s-tag.s-bad .s-button.s-remove-bad, .s-tag.s-terrible .s-button.s-remove-terrible, " +
-".s-tag.s-good .s-button.s-add-loved, .s-tag.s-performer .s-button.s-add-loveperf, .s-tag.s-bad .s-button.s-add-terrible, .s-tag.s-useless .s-button.s-remove-useless{display:block}" +
+		".s-tag.s-good .s-button.s-add-loved, .s-tag.s-performer .s-button.s-add-loveperf, .s-tag.s-bad .s-button.s-add-terrible, .s-tag.s-useless .s-button.s-remove-useless{display:block}" +
         ".s-tag.s-bad .s-button.s-add-useless{display:block}" +
 (settings.truncateTags ?
          (".s-tag a{max-width:100px;overflow:hidden;text-overflow:ellipsis;}" +
@@ -376,21 +376,21 @@ newperf : getValue("newperf_tags", "").split(' '),
                 tagLink = tagLink.wrap("<span>").parent().addClass("s-tag");
                 tag = tag.toLowerCase();
 
-                if(settings.useGoodTags && isTag(settings.tags.good, tag)){
-                    goodNum++;
-                    tagLink.addClass("s-good");
-                }
-                else if(settings.useLovedTags && isTag(settings.tags.loved, tag)){
+				if(settings.useLovedTags && isTag(settings.tags.loved, tag)){
                     goodNum++;
                     tagLink.addClass("s-loved");
-                }
-                else if(settings.usePerformerTags && isTag(settings.tags.performer, tag)){
+				}	
+                else if(settings.useGoodTags && isTag(settings.tags.good, tag)){
                     goodNum++;
-                    tagLink.addClass("s-performer");
+                    tagLink.addClass("s-good");
                 }
                 else if(settings.useLoveperfTags && isTag(settings.tags.loveperf, tag)){
                     goodNum++;
                     tagLink.addClass("s-loveperf");
+                }
+                else if(settings.usePerformerTags && isTag(settings.tags.performer, tag)){
+                    goodNum++;
+                    tagLink.addClass("s-performer");
                 }
                 else if(settings.useNewperfTags && isTag(settings.tags.newperf, tag)){
                     goodNum++;
@@ -413,14 +413,15 @@ newperf : getValue("newperf_tags", "").split(' '),
                     badNum++;
                     tagLink.addClass("s-terrible s-bad");
                 }
-                else if(settings.useBadTags && isTag(settings.tags.bad, tag)){
-                    badNum++;
-                    tagLink.addClass("s-bad");
-                }
                 else if(settings.useUselessTags && isTag(settings.tags.useless, tag)){
                     totalTagNum--;
                     tagLink.addClass("s-useless");
                 }
+                else if(settings.useBadTags && isTag(settings.tags.bad, tag)){
+                    badNum++;
+                    tagLink.addClass("s-bad");
+                }
+
 
             });
             var goodPercent = Math.round(goodNum/totalTagNum * 100);
@@ -725,11 +726,11 @@ newperf : getValue("newperf_tags", "").split(' '),
        removeTagElement(type, holder, tag);
         holder.addClass("s-bad");
     }
-function addLovedTagElement(type, holder, tag){
+	function addLovedTagElement(type, holder, tag){
         holder.removeClass("s-good");
         addTagElement(type, holder, tag);
     }
-function removeLovedTagElement(type, holder, tag){
+	function removeLovedTagElement(type, holder, tag){
         removeTagElement(type, holder, tag);
         holder.addClass("s-good");
     }
@@ -741,7 +742,6 @@ function removeLovedTagElement(type, holder, tag){
         removeTagElement(type, holder, tag);
         holder.addClass("s-perfomer");
     }
-
     function addUselessTagElement(type, holder, tag){
         holder.parent().detach().appendTo($j(".s-useless-tags"));
         $j(".s-useless-tags").trigger("spyder.change");
