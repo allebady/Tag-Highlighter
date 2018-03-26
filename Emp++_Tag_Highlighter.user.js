@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter
-// @version 0.6.0c
+// @version 0.6.1
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -23,7 +23,6 @@ function runScript(){
     var defaults = {
         majorVersion : 0.6,
         //Options
-//        autoDownvoteTags : false,
         truncateTags : true,
         //Browse Page Options
         usePercentBar : false,
@@ -84,7 +83,6 @@ function runScript(){
         "<div id='s-conf-content'>" +
         "<form id='s-conf-form'>" +
         "<div class='s-conf-page s-selected' id='s-conf-general'>" +
-//        "<br/><label><input class='s-conf-gen-checkbox' type='checkbox' name='autoDownvoteTags'/> Automatically downvote useless tags</label>" +
         "<br/><label><input class='s-conf-gen-checkbox' type='checkbox' name='truncateTags'/> Automatically truncate long tags on torrent details page</label>" +
         "<br/><h2>Enable/Disable Tag Types:</h2>" +
         "<label><input class='s-conf-gen-checkbox' type='checkbox' name='useGoodTags'/> Use Liked Tag Type</label>" +
@@ -290,7 +288,7 @@ function runScript(){
         ".s-tag.s-good .s-button.s-remove-good, .s-tag.s-loved .s-button.s-remove-loved, .s-tag.s-performer .s-button.s-remove-performer, .s-tag.s-loveperf .s-button.s-remove-loveperf, .s-tag.s-newperf .s-button.s-remove-newperf, .s-tag.s-bad .s-button.s-remove-bad, .s-tag.s-terrible .s-button.s-remove-terrible, " +
 		".s-tag.s-good .s-button.s-add-loved, .s-tag.s-performer .s-button.s-add-loveperf, .s-tag.s-bad .s-button.s-add-terrible, .s-tag.s-useless .s-button.s-remove-useless{display:block}" +
         ".s-tag.s-bad .s-button.s-add-useless{display:block}" +
-(settings.truncateTags ?
+	(settings.truncateTags ?
          (".s-tag a{max-width:100px;overflow:hidden;text-overflow:ellipsis;}" +
           ".s-tag.s-good a,.s-tag.s-performer a, .s-tag.s-useless a, .s-tag.s-terrible a{max-width:140px;}" +
           ".s-tag.s-bad a {max-width:120px;}" +
@@ -379,7 +377,7 @@ function runScript(){
 				if(settings.useLovedTags && isTag(settings.tags.loved, tag)){
                     goodNum++;
                     tagLink.addClass("s-loved");
-				}	
+				}
                 else if(settings.useGoodTags && isTag(settings.tags.good, tag)){
                     goodNum++;
                     tagLink.addClass("s-good");
@@ -488,7 +486,7 @@ function runScript(){
         var highlightDetailTags = function(){
             if(isTagsLoaded) return;
             //Timeout to ensure we run after everything else
-            var tagLinks = $j("#torrent_tags").find("a[href^='/torrents\\.php\\?taglist=']");
+            var tagLinks = $j("#torrent_tags").find("a[href*='\\?taglist=']");
 
             isTagsLoaded = tagLinks.length > 0;
 
@@ -545,9 +543,9 @@ function runScript(){
                 }
                 else if(settings.useUselessTags && isTag(settings.tags.useless, tag)){
                     var uselessTag = tagHolder.addClass("s-useless");
-//                    if(settings.autoDownvoteTags){
-//                        uselessTag.next().find("a").eq(0).trigger("click");
-//                   }
+
+
+
                     uselessTag.parent().detach().appendTo(".s-useless-tags").trigger("spyder.change");
                 }
                 else if(settings.useTerribleTags && isTag(settings.tags.terrible, tag)){
@@ -742,21 +740,22 @@ function runScript(){
         removeTagElement(type, holder, tag);
         holder.addClass("s-perfomer");
     }
+
     function addUselessTagElement(type, holder, tag){
         holder.parent().detach().appendTo($j(".s-useless-tags"));
         $j(".s-useless-tags").trigger("spyder.change");
-//        if(settings.autoDownvoteTags){
-//            holder.next().find("a").eq(0).trigger("click");
-//        }
+
+
+
         addTagElement(type, holder, tag);
     }
     function removeUselessTagElement(type, holder, tag){
         holder.parent().detach().insertBefore($j(".s-useless-desc"));
         $j(".s-useless-tags").trigger("spyder.change");
         //undo auto-downvote if removing from useless tag list
-//        if(settings.autoDownvoteTags){
-//            holder.next().find("a").eq(1).trigger("click");
-//        }
+
+
+
         removeTagElement(type, holder, tag);
     }
     function addTagElement(type, holder, tag){
