@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter
-// @version 0.6.1
+// @version 0.6.2
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -309,7 +309,7 @@ function runScript(){
 
 
         // add config link
-        $j("<li class='brackets' title=\"Change Empornium++Tag Highlighter's settings.\"><a href='#'>Tag-Config</a></li>").insertAfter("#nav_userinfo").on("click", function(e){
+        $j("<li class='brackets' title=\"Change Empornium++Tag Highlighter's settings.\"><a href='#'>Old Tag-Config</a></li>").insertAfter("#nav_userinfo").on("click", function(e){
             e.preventDefault();
             initConfig($j(configHTML).prependTo("body"));
         });
