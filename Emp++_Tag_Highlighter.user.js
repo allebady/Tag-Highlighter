@@ -17,6 +17,23 @@
 // @match https://pornbay.org/*
 // @namespace LaMa
 // ==/UserScript==
+
+
+// Changelog:
+// Version 0.6.3
+// - Added text to inform of update
+// Version 0.6.2
+// - Preparing for new "branch". 
+// - "Tag config" renamed "old tag config".
+// Version 0.6.1
+// - updated taglinks
+// Version 0.6.0
+// - Added more tag-groups 
+// - Removed autodownvote, it shouldn't be used anyway (it's still in the code if you need to deactivate it or notice problems)
+// - Changed Useless tags to only be toggle-able on Disliked tags to save space. Let me know if you disagree with this decision
+// - Loved Performers/tags can be toggled after you liked a perfomer/tag
+// - few size changes to fit all in the config window 
+
 function runScript(){
     var $j = $.noConflict(true);
 
@@ -52,14 +69,14 @@ function runScript(){
     //import tags from pre-v0.4 ETH
     if(!settings.tags){
         settings.tags = {
-            good : getValue("good_tags", "").split(' '),
-			loved : getValue("loved_tags", "").split(' '),
-            performer : getValue("performer_tags", "").split(' '),
-			loveperf : getValue("loveperf_tags", "").split(' '),
-			newperf : getValue("newperf_tags", "").split(' '),
-            bad : getValue("bad_tags", "").split(' '),
-            terrible : getValue("terrible_tags", "").split(' '),
-            useless : getValue("useless_tags", "").split(' ')
+        	good : getValue("good_tags", "").split(' '),
+		loved : getValue("loved_tags", "").split(' '),
+           	performer : getValue("performer_tags", "").split(' '),
+		loveperf : getValue("loveperf_tags", "").split(' '),
+		newperf : getValue("newperf_tags", "").split(' '),
+         	bad : getValue("bad_tags", "").split(' '),
+          	terrible : getValue("terrible_tags", "").split(' '),
+            	useless : getValue("useless_tags", "").split(' ')
         };
         saveSettings();
     }
@@ -67,7 +84,8 @@ function runScript(){
     var configHTML =
         "<div id='s-conf-background'>" +
         "<div id='s-conf-wrapper'>" +
-        "<h1>Empornium++Tag Highlighter Settings</h1>" +
+        "<h1>Old Empornium++Tag Highlighter Settings</h1>" +
+        "<h1>New version is out. Check Github</h1>" +
         "<div id='s-conf-status'></div>" +
         "<ul id='s-conf-tabs'>" +
         "<li><h2><a class='s-conf-tab s-selected' data-page='s-conf-general'>General</a></h2></li>" +
