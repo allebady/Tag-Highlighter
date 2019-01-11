@@ -85,7 +85,6 @@ function runScript(){
         "<div id='s-conf-background'>" +
         "<div id='s-conf-wrapper'>" +
         "<h1>Old Empornium++Tag Highlighter Settings</h1>" +
-        "<h1>New version is out. Check Github</h1>" +
         "<div id='s-conf-status'></div>" +
         "<ul id='s-conf-tabs'>" +
         "<li><h2><a class='s-conf-tab s-selected' data-page='s-conf-general'>General</a></h2></li>" +
@@ -101,6 +100,7 @@ function runScript(){
         "<div id='s-conf-content'>" +
         "<form id='s-conf-form'>" +
         "<div class='s-conf-page s-selected' id='s-conf-general'>" +
+        "<h1>New version is out. Check Github</h1>" +
         "<br/><label><input class='s-conf-gen-checkbox' type='checkbox' name='truncateTags'/> Automatically truncate long tags on torrent details page</label>" +
         "<br/><h2>Enable/Disable Tag Types:</h2>" +
         "<label><input class='s-conf-gen-checkbox' type='checkbox' name='useGoodTags'/> Use Liked Tag Type</label>" +
