@@ -24,6 +24,8 @@
 // - Added option to hide tag buttons
 // - Few renames and corrections of variables
 // - Few size changes to fit all text
+// Version 0.6.3
+// - Added text to inform of update
 // Version 0.6.2
 // - Preparing for new "branch". 
 // - "Tag config" renamed "old tag config".
