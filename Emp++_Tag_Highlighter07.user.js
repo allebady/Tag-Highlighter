@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter 0.7
-// @version 0.7.0
+// @version 0.7.1
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -18,25 +18,25 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.7.1
+// - Reorganized settings page to accommodate low resolution monitors
 // Version 0.7.0
-// - Added more tag-groups 
-// - Color change to accomodate more tag-groups
+// - Added more tag-groups
+// - Color change to accommodate more tag-groups
 // - Added option to hide tag buttons
 // - Few renames and corrections of variables
 // - Few size changes to fit all text
-// Version 0.6.3
-// - Added text to inform of update
 // Version 0.6.2
-// - Preparing for new "branch". 
+// - Preparing for new "branch".
 // - "Tag config" renamed "old tag config".
 // Version 0.6.1
 // - updated taglinks
 // Version 0.6.0
-// - Added more tag-groups 
+// - Added more tag-groups
 // - Removed autodownvote, it shouldn't be used anyway (it's still in the code if you need to deactivate it or notice problems)
 // - Changed Useless tags to only be toggle-able on Disliked tags to save space. Let me know if you disagree with this decision
 // - Loved Performers/tags can be toggled after you liked a perfomer/tag
-// - few size changes to fit all in the config window 
+// - few size changes to fit all in the config window
 
 
 function runScript(){
@@ -127,38 +127,30 @@ function runScript(){
 		"<li><h2><a class='s-conf-tab' data-page='s-conf-likesite-tags'>Liked Site Tags</a></h2></li>" +
 		"<li><h2><a class='s-conf-tab' data-page='s-conf-lovesite-tags'>Loved Site Tags</a></h2></li>" +
         "<li><h2><a class='s-conf-tab' data-page='s-conf-disliked-tags'>Disliked Tags</a></h2></li>" +
-        "<li><h2><a class='s-conf-tab' data-page='s-conf-hated-tags'>hated Tags</a></h2></li>" +
+        "<li><h2><a class='s-conf-tab' data-page='s-conf-hated-tags'>Hated Tags</a></h2></li>" +
         "<li><h2><a class='s-conf-tab' data-page='s-conf-terrible-tags'>Blacklisted Tags</a></h2></li>" +
         "<li><h2><a class='s-conf-tab' data-page='s-conf-useless-tags'>Useless Tags</a></h2></li>" +
         "</ul>" +
         "<div id='s-conf-content'>" +
         "<form id='s-conf-form'>" +
         "<div class='s-conf-page s-selected' id='s-conf-general'>" +
-        "<br/><label><input class='s-conf-gen-checkbox' type='checkbox' name='truncateTags'/> Automatically truncate long tags on torrent details page</label>" +
+        "<label><input class='s-conf-gen-checkbox' type='checkbox' name='truncateTags'/> Automatically truncate long tags on torrent details page</label>" +
         "<br/><h2>Enable/Disable Tag Types:</h2>" +
-        "<label><input class='s-conf-gen-checkbox' type='checkbox' name='useGoodTags'/> Use Liked Tag Type </label>" +
+        "<label><span><input class='s-conf-gen-checkbox' type='checkbox' name='useGoodTags'/> Use Liked Tag Type</span><span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span style='text-align=center'><input class='s-conf-gen-checkbox' type='checkbox' name='buttonGoodTags'/> Hide Liked Tag Button</span></label>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useLovedTags'/> Use Loved Tag Type (Require Liked Tag active)</label>" +
-        "<label><input class='s-conf-gen-checkbox' type='checkbox' name='usePerformerTags'/> Use Performer Tag Type</label>" +
+        "<label><span><input class='s-conf-gen-checkbox' type='checkbox' name='usePerformerTags'/> Use Performer Tag Type</span><span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='buttonPerformerTags'/> Hide Performer Tag Button</span></label>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useLoveperfTags'/> Use Loved Performer Tag Type (Require Performer)</label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useNewperfTags'/> Use New Performer Tag Type</label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useAmateurTags'/> Use Amateur Tag Type</label>" +
+		"<label><span><input class='s-conf-gen-checkbox' type='checkbox' name='useNewperfTags'/> Use New Performer Tag Type </span><span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='buttonNewperfTags'/> Hide New Performer Tag Button</label>" +
+		"<label><span><input class='s-conf-gen-checkbox' type='checkbox' name='useAmateurTags'/> Use Amateur Tag Type</span><span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='buttonAmateurTags'/> Hide Amateur Tag Button</span></label>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useLoveamatTags'/> Use Loved Amateur Tag Type (Require Amateur)</label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useMaleperfTags'/> Use Male Performer Tag Type</label>" +
+		"<label><span><input class='s-conf-gen-checkbox' type='checkbox' name='useMaleperfTags'/> Use Male Performer Tag Type</span><span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='buttonMaleperfTags'/> Hide Male Performer Tag Button</span></label>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useLovemaleTags'/> Use Loved Male Performer Tag Type (Require Male Performer)</label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useLikesiteTags'/> Use Liked Site Tag Type</label>" +
+		"<label><span><input class='s-conf-gen-checkbox' type='checkbox' name='useLikesiteTags'/> Use Liked Site Tag Type</span><span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='buttonLikesiteTags'/> Hide Liked Site Tag Button</span></label>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useLovesiteTags'/> Use Loved Site Tag Type (Require Liked Site)</label>" +
-        "<label><input class='s-conf-gen-checkbox' type='checkbox' name='useDislikedTags'/> Use Disliked Tag Type</label>" +
+        "<label><span><input class='s-conf-gen-checkbox' type='checkbox' name='useDislikedTags'/> Use Disliked Tag Type</span><span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='buttonDislikedTags'/> Hide Disliked Tag Button</span></label>" +
         "<label><input class='s-conf-gen-checkbox' type='checkbox' name='useHatedTags'/> Use Hated Tag Type. (Requires Disliked)</label>" +
         "<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTerribleTags'/> Use Blacklisted Tag Type. May not work properly with collapsed duplicates user script (Requires Disliked)</label>" +
         "<label><input class='s-conf-gen-checkbox' type='checkbox' name='useUselessTags'/> Use Useless Tag Type (Requires Disliked)</label>" +
-        "<br/><h2>Enable/Disable Tag Buttons:</h2>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='buttonGoodTags'/> Hide Liked Tag Button</label>" +
-        "<label><input class='s-conf-gen-checkbox' type='checkbox' name='buttonPerformerTags'/> Hide Performer Tag Button</label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='buttonNewperfTags'/> Hide New Performer Tag Button</label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='buttonAmateurTags'/> Hide Amateur Tag Button</label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='buttonMaleperfTags'/> Hide Male Performer Tag Button</label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='buttonLikesiteTags'/> Hide Liked Site Tag Button</label>" +
-        "<label><input class='s-conf-gen-checkbox' type='checkbox' name='buttonDislikedTags'/> Hide Disliked Tag Button</label>" +
 		"<br/><h2>Torrent Display Options:</h2>" +
         "<label><input class='s-conf-gen-checkbox' type='checkbox' name='usePercentBar'/> Use Percent Bar <a>(View Example)</a>" +
         "<img src='http://i.imgur.com/2U1Ei.png'/></label>" +
@@ -370,15 +362,15 @@ function runScript(){
         "#s-conf-status.s-success{border-color:#135300; background:#A9DF9C;}" +
         "#s-conf-status.s-error{border-color:#840000; background:#F3AAAA;}" +
         "#s-conf-status-close{cursor:pointer;}" +
-        "#s-conf-tabs{width:100%; height:108px; margin:15px 0 -1px 0; overflow:hidden; cursor:pointer;}" +
+        "#s-conf-tabs{width:100%; height:100px; margin:15px 0 -1px 0; overflow:hidden; cursor:pointer;}" +
         "#s-conf-tabs li, #s-conf-tabs h2{margin:0; list-style:none;float:left;}" +
         "#s-conf-content{width:100%; overflow:hidden; border:1px solid #444; border-radius:4px; border-top-left-radius: 0px; box-shadow:0 -1px 10px rgba(0,0,0,0.6);}" +
-        ".s-conf-tab{width:110px; height:40px; padding:6px; margin-right:2px; font-size:14px;display:block; float:left; text-align:center; border:1px solid #444; border-bottom:0;" +
+        ".s-conf-tab{width:110px; height:40px; padding:4px; margin-right:2px; font-size:14px;display:block; float:left; text-align:center; border:1px solid #444; border-bottom:0;" +
         "border-top-left-radius: 4px; border-top-right-radius: 4px; color:#444;margin: 0px 0px 0px;}" +
         ".s-conf-tab.s-selected, .s-conf-tab:hover{background-color:#fff;}" +
         "#s-conf-form{display:block; background:#fff; padding:15px;}" +
         "#s-conf-form label{display:block;}" +
-        ".s-conf-buttons{margin-top:15px; width:100%; text-align:center;}" +
+        ".s-conf-buttons{margin-top:8px; width:100%; text-align:center;}" +
         ".s-conf-page{display:none;}" +
         ".s-conf-page.s-selected{display:block;}" +
         ".s-conf-page input{vertical-align:text-bottom;}" +
