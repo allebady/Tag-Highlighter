@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter 0.7
-// @version 0.7.1
+// @version 0.7.2
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
