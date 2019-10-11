@@ -18,6 +18,8 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.7.2
+// - Corrected a wrong placement of a 'amateur' instead of a 'loveamat' 
 // Version 0.7.1
 // - Reorganized settings page to accommodate low resolution monitors
 // Version 0.7.0
