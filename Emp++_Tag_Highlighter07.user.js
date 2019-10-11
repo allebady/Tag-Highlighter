@@ -121,7 +121,7 @@ function runScript(){
 		"<li><h2><a class='s-conf-tab' data-page='s-conf-loveperf-tags'>Loved Performer Tags</a></h2></li>" +
 		"<li><h2><a class='s-conf-tab' data-page='s-conf-newperf-tags'>New Performer Tags</a></h2></li>" +
 		"<li><h2><a class='s-conf-tab' data-page='s-conf-amateur-tags'>Amateur Tags</a></h2></li>" +
-		"<li><h2><a class='s-conf-tab' data-page='s-conf-amateur-tags'>Loved Amateur Tags</a></h2></li>" +
+		"<li><h2><a class='s-conf-tab' data-page='s-conf-loveamat-tags'>Loved Amateur Tags</a></h2></li>" +
 		"<li><h2><a class='s-conf-tab' data-page='s-conf-maleperf-tags'>Male Performer Tags</a></h2></li>" +
 		"<li><h2><a class='s-conf-tab' data-page='s-conf-lovemale-tags'>Loved Male Performer Tags</a></h2></li>" +
 		"<li><h2><a class='s-conf-tab' data-page='s-conf-likesite-tags'>Liked Site Tags</a></h2></li>" +
