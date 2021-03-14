@@ -1,23 +1,33 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter 0.7
-// @version 0.7.2
+// @version 0.7.3
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
-// @require https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js
+// @require https://code.jquery.com/jquery-1.12.4.min.js
 // @match http://*.empornium.me/*
 // @match https://*.empornium.me/*
 // @match http://empornium.me/*
 // @match https://empornium.me/*
+// @match http://*.empornium.is/*
+// @match https://*.empornium.is/*
+// @match http://empornium.is/*
+// @match https://empornium.is/*
 // @match http://*.empornium.sx/*
 // @match https://*.empornium.sx/*
 // @match http://empornium.sx/*
 // @match https://empornium.sx/*
+// @match http://*.pornbay.org/*
+// @match https://*.pornbay.org/*
 // @match http://pornbay.org/*
 // @match https://pornbay.org/*
 // ==/UserScript==
 
 // Changelog:
+// Version 0.7.3
+// - Updated for better/more domain handling and added some updates suggested by SturmB:
+// - - Adds better support for Pornbay. (Subdomains and Tag-Config link)
+// - - Updates jQuery to latest stable version on the v1 track.
 // Version 0.7.2
 // - Corrected a wrong placement of a 'amateur' instead of a 'loveamat' 
 // Version 0.7.1
@@ -465,6 +475,10 @@ function runScript(){
         ".s-useless-toggle{font-weight:bold; cursor:pointer;}" +
         ".s-useless-desc{clear:both; padding:8px 0 8px 15px;}" +
         "</style>";
+    let userInfoID = "#nav_userinfo"; // The selector that Empornium uses
+    if ($j(userInfoID).length < 1) {
+        userInfoID = "#nav_useredit"; // // The selector that Pornbay uses
+    }
     (function init() {
         // add stylesheet
         $j(stylesheet).appendTo("head");
@@ -472,8 +486,7 @@ function runScript(){
         $j('#torrent_table').css('background-color',test);
 
         // add config link
-        $j("<li class='brackets' title=\"Change Empornium++Tag Highlighter's settings.\"><a href='#'>Tag-Config</a></li>").insertAfter("#nav_userinfo").on("click", function(e){
-            e.preventDefault();
+         $j("<li class='brackets' title=\"Change Empornium++Tag Highlighter's settings.\"><a href='#'>Tag-Config</a></li>").insertAfter(userInfoID).on("click", function(e){            e.preventDefault();
             initConfig($j(configHTML).prependTo("body"));
         });
 
@@ -1178,7 +1191,7 @@ else{
 
 function addJQuery(callback) {
     var script = document.createElement("script");
-    script.setAttribute("src", "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js");
+    script.setAttribute("src", "https://code.jquery.com/jquery-1.12.4.min.js");
     script.addEventListener('load', function() {
         var script = document.createElement("script");
         script.textContent = "(" + callback.toString() + ")();";
