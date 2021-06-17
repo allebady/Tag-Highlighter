@@ -24,6 +24,9 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.8.0
+// - Added Import/Export feature.
+// - Added [ESC] to close Tag Highlighter.
 // Version 0.7.3
 // - Updated for better/more domain handling and added some updates suggested by SturmB:
 // - - Adds better support for Pornbay. (Subdomains and Tag-Config link)
@@ -142,6 +145,7 @@ function runScript(){
         "<li><h2><a class='s-conf-tab' data-page='s-conf-hated-tags'>Hated Tags</a></h2></li>" +
         "<li><h2><a class='s-conf-tab' data-page='s-conf-terrible-tags'>Blacklisted Tags</a></h2></li>" +
         "<li><h2><a class='s-conf-tab' data-page='s-conf-useless-tags'>Useless Tags</a></h2></li>" +
+        "<li><h2><a class='s-conf-tab' data-page='s-conf-import-export'>Import/Export</a></h2></li>" +
         "</ul>" +
         "<div id='s-conf-content'>" +
         "<form id='s-conf-form'>" +
@@ -354,6 +358,19 @@ function runScript(){
         "<label><h2>Useless Tags - If enabled, these tags will be hidden:</h2>" +
         "<textarea readonly id='s-conf-text-useless' class='s-conf-tag-txtarea'></textarea></label>" +
         "</div>" +
+        // Import/Export panel
+        "<div class='s-conf-page' id='s-conf-import-export'>" +
+        "<h3>Export Settings</h3>" +
+        "<hr><br>" +
+        "<p>Click 'Export Settings' button and copy to a local file.</p>" + 
+        "<button id='export-settings-button'>Export Settings</button>" +
+        "<br><br>" +
+        "<h3>Import Settings</h3>" +
+        "<hr><br>" +
+        "<textarea id='import-settings-textarea' rows='10' cols='100' placeholder='Paste your exported settings here.'></textarea><br><br>" +
+        "<button id='import-settings-button'>Import Settings</button>" +
+        "</div>" +
+        // End Import/Export 
         "</form>" +
         "</div>" +
         "<div class='s-conf-buttons'>" +
@@ -1021,6 +1038,55 @@ function runScript(){
                 $j(this).removeClass().addClass("s-" + type).html(msg + " <a id='s-conf-status-close'>(×)</a>").fadeIn("fast");
             });
         }
+      
+        function refreshUI() {
+          $j('#s-conf-background').remove();
+          initConfig($j(configHTML).prependTo("body"));
+        }
+        
+      // Import/export settings related code
+      function importSettings(rawSettings) {
+        try {
+          const trimmedSettings = rawSettings.trim();
+          if (trimmedSettings.length === 0) {
+            throw new Error('Settings empty.');
+          }
+          const importedSettings = JSON.parse(trimmedSettings);
+          // setValue("spyderSettings", trimmedSettings);
+          settings = importedSettings;
+          saveSettings();
+        } catch (e) {
+          throw e;
+        }
+      } 
+        
+        $j('#import-settings-button').on('click', (e) => {
+          e.preventDefault();
+          try {
+            const textArea = $j('#import-settings-textarea');
+            
+            importSettings(textArea.val());
+            
+            // Refresh UI with new settings.
+            refreshUI();
+            displayStatus("success", "Imported settings successfully.");
+          } catch (e) {
+            displayStatus("error", `Unable to import settings: ${e.message}`)
+          }
+          
+        });
+      
+        $j('#export-settings-button').on('click', (e) => {
+          e.preventDefault();
+          alert(`Copy and save below settings to a file:\r\n ${JSON.stringify(getSettings())}`);
+        });
+      
+        // Escape closes ETH
+        $j(document).keyup(function(e) {
+            if (e.key === "Escape") {
+              base.remove();
+        }
+});
     }
 
     //General Purpose Funcitons
@@ -1148,7 +1214,7 @@ function runScript(){
     function setValue(name, value){
 
         GM_setValue(name, value);
-
+        alert(JSON.stringify(JSON.parse(value).tags));
 
     }
     function saveTags(name, tagArray){
