@@ -1212,10 +1212,7 @@ function runScript(){
 
     }
     function setValue(name, value){
-
         GM_setValue(name, value);
-        alert(JSON.stringify(JSON.parse(value).tags));
-
     }
     function saveTags(name, tagArray){
         var tmp = $j.grep(tagArray, function(tag){return tag;});
