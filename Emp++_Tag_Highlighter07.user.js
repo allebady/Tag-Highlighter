@@ -394,9 +394,9 @@ function runScript(){
         "#s-conf-tabs{width:100%; height:100px; margin:15px 0 -1px 0; overflow:hidden; cursor:pointer;}" +
         "#s-conf-tabs li, #s-conf-tabs h2{margin:0; list-style:none;float:left;}" +
         "#s-conf-content{width:100%; overflow:hidden; border:1px solid #444; border-radius:4px; border-top-left-radius: 0px; box-shadow:0 -1px 10px rgba(0,0,0,0.6);}" +
-        ".s-conf-tab{width:110px; height:40px; padding:4px; margin-right:2px; font-size:14px;display:block; float:left; text-align:center; border:1px solid #444; border-bottom:0;" +
+        ".s-conf-tab{width:130px; height:40px; text-decoration: none; margin-right:2px; font-size:12px;display:block; float:left; text-align:center; border:1px solid #444; border-bottom:0;" +
         "border-top-left-radius: 4px; border-top-right-radius: 4px; color:#444;margin: 0px 0px 0px;}" +
-        ".s-conf-tab.s-selected, .s-conf-tab:hover{background-color:#fff;}" +
+        ".s-conf-tab.s-selected, .s-conf-tab:hover{background-color:#fff; text-decoration: none;}" +
         "#s-conf-form{display:block; background:#fff; padding:15px;}" +
         "#s-conf-form label{display:block;}" +
         ".s-conf-buttons{margin-top:8px; width:100%; text-align:center;}" +
