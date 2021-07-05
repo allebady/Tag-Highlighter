@@ -361,10 +361,10 @@ function runScript(){
         // Import/Export panel
         "<div class='s-conf-page' id='s-conf-import-export'>" +
         "<h3>Export Settings</h3>" +
-        "<hr><br>" +
-        "<p>Click 'Export Settings' button and copy to a local file.</p>" + 
-        "<button id='export-settings-button'>Export Settings</button>" +
-        "<br><br>" +
+        "<hr>" +
+        "<p>To backup your settings, copy below text to a local file. You can import these settings in the Import Settings area.</p>" + 
+        "<textarea id='export-settings-textarea' rows='10' cols='100' readonly></textarea><br><br>" +
+        "<br>" +
         "<h3>Import Settings</h3>" +
         "<hr><br>" +
         "<textarea id='import-settings-textarea' rows='10' cols='100' placeholder='Paste your exported settings here.'></textarea><br><br>" +
@@ -1075,11 +1075,10 @@ function runScript(){
           }
           
         });
-      
-        $j('#export-settings-button').on('click', (e) => {
-          e.preventDefault();
-          alert(`Copy and save below settings to a file:\r\n ${JSON.stringify(getSettings())}`);
-        });
+
+        // Populate export settings textarea with settings
+        const ta = document.querySelector('#export-settings-textarea');
+        ta.textContent = JSON.stringify(getSettings());
       
         // Escape closes ETH
         $j(document).keyup(function(e) {
