@@ -129,23 +129,24 @@ function runScript(){
         "<h1>Empornium++Tag Highlighter Settings</h1>" +
         "<div id='s-conf-status'></div>" +
         "<ul id='s-conf-tabs'>" +
-        "<li><h2><a class='s-conf-tab s-selected' data-page='s-conf-general'>General</a></h2></li>" +
-        "<li><h2><a class='s-conf-tab' data-page='s-conf-good-tags'>Liked Tags</a></h2></li>" +
-		"<li><h2><a class='s-conf-tab' data-page='s-conf-loved-tags'>Loved Tags</a></h2></li>" +
-        "<li><h2><a class='s-conf-tab' data-page='s-conf-performer-tags'>Performer Tags</a></h2></li>" +
-		"<li><h2><a class='s-conf-tab' data-page='s-conf-loveperf-tags'>Loved Performer Tags</a></h2></li>" +
-		"<li><h2><a class='s-conf-tab' data-page='s-conf-newperf-tags'>New Performer Tags</a></h2></li>" +
-		"<li><h2><a class='s-conf-tab' data-page='s-conf-amateur-tags'>Amateur Tags</a></h2></li>" +
-		"<li><h2><a class='s-conf-tab' data-page='s-conf-loveamat-tags'>Loved Amateur Tags</a></h2></li>" +
-		"<li><h2><a class='s-conf-tab' data-page='s-conf-maleperf-tags'>Male Performer Tags</a></h2></li>" +
-		"<li><h2><a class='s-conf-tab' data-page='s-conf-lovemale-tags'>Loved Male Performer Tags</a></h2></li>" +
-		"<li><h2><a class='s-conf-tab' data-page='s-conf-likesite-tags'>Liked Site Tags</a></h2></li>" +
-		"<li><h2><a class='s-conf-tab' data-page='s-conf-lovesite-tags'>Loved Site Tags</a></h2></li>" +
-        "<li><h2><a class='s-conf-tab' data-page='s-conf-disliked-tags'>Disliked Tags</a></h2></li>" +
-        "<li><h2><a class='s-conf-tab' data-page='s-conf-hated-tags'>Hated Tags</a></h2></li>" +
-        "<li><h2><a class='s-conf-tab' data-page='s-conf-terrible-tags'>Blacklisted Tags</a></h2></li>" +
-        "<li><h2><a class='s-conf-tab' data-page='s-conf-useless-tags'>Useless Tags</a></h2></li>" +
-        "<li><h2><a class='s-conf-tab' data-page='s-conf-import-export'>Import/Export</a></h2></li>" +
+        "<li data-page='s-conf-general' class='s-selected'><a class='s-conf-tab' >General</a></li>" +
+        "<li data-page='s-conf-good-tags'><a class='s-conf-tab'>Liked Tags</a></li>" +
+		"<li data-page='s-conf-loved-tags'><a class='s-conf-tab'>Loved Tags</a></li>" +
+        "<li data-page='s-conf-performer-tags'><a class='s-conf-tab'>Performer Tags</a></li>" +
+		"<li data-page='s-conf-loveperf-tags'><a class='s-conf-tab'>Loved Performer Tags</a></li>" +
+		"<li data-page='s-conf-newperf-tags'><a class='s-conf-tab'>New Performer Tags</a></li>" +
+		"<li data-page='s-conf-amateur-tags'><a class='s-conf-tab'>Amateur Tags</a></li>" +
+		"<li data-page='s-conf-loveamat-tags'><a class='s-conf-tab'>Loved Amateur Tags</a></li>" +
+		"<li data-page='s-conf-maleperf-tags'><a class='s-conf-tab'>Male Performer Tags</a></li>" +
+		"<li data-page='s-conf-lovemale-tags'><a class='s-conf-tab'>Loved Male Performer Tags</a></li>" +
+		"<li data-page='s-conf-likesite-tags'><a class='s-conf-tab'>Liked Site Tags</a></li>" +
+		"<li data-page='s-conf-lovesite-tags'><a class='s-conf-tab'>Loved Site Tags</a></li>" +
+        "<li data-page='s-conf-disliked-tags'><a class='s-conf-tab'>Disliked Tags</a></li>" +
+        "<li data-page='s-conf-hated-tags'><a class='s-conf-tab'>Hated Tags</a></li>" +
+        "<li data-page='s-conf-terrible-tags'><a class='s-conf-tab'>Blacklisted Tags</a></li>" +
+        "<li data-page='s-conf-useless-tags'><a class='s-conf-tab'>Useless Tags</a></li>" +
+        "<li data-page='s-conf-import-export'><a class='s-conf-tab'>Import/Export</a></li>" +
+        "<li><a class='s-conf-tab' data-page=''></a></li>" +
         "</ul>" +
         "<div id='s-conf-content'>" +
         "<form id='s-conf-form'>" +
@@ -386,17 +387,18 @@ function runScript(){
         "#s-conf-background{position:fixed; top:0; bottom:0; left:0; right:0; z-index:1000; background-color:rgba(50,50,50,0.6);}" +
         "#s-conf-wrapper{background:#eee; color:#444; position:relative; width:1200px; overflow:hidden; margin:50px auto; font-size:14px;" +
         "padding:15px 20px; border-radius:16px; box-shadow: 0 0 20px black;}" +
-        "#s-conf-wrapper h2{background:none; text-align:left; color:#444; padding:0;}" +
+        "#s-conf-wrapper h2{background:none; text-align:left; color:#444; padding:0; border-radius: unset;}" +
         "#s-conf-status{width:784px; padding:8px; line-height:16px; text-align:center; border:1px solid #ddd; margin-top:15px; display:none;}" +
         "#s-conf-status.s-success{border-color:#135300; background:#A9DF9C;}" +
         "#s-conf-status.s-error{border-color:#840000; background:#F3AAAA;}" +
         "#s-conf-status-close{cursor:pointer;}" +
-        "#s-conf-tabs{width:100%; height:100px; margin:15px 0 -1px 0; overflow:hidden; cursor:pointer;}" +
-        "#s-conf-tabs li, #s-conf-tabs h2{margin:0; list-style:none;float:left;}" +
+        "#s-conf-tabs{width:100%; margin:15px 0 -1px 0; overflow:hidden; cursor:pointer;}" +
+        "#s-conf-tabs li, #s-conf-tabs h2{ border: 1px solid #444; border-bottom: 0; border-radius: 4px 4px 0 0; line-height: normal; width: 130px; margin:0; list-style:none;float:left;}" +
         "#s-conf-content{width:100%; overflow:hidden; border:1px solid #444; border-radius:4px; border-top-left-radius: 0px; box-shadow:0 -1px 10px rgba(0,0,0,0.6);}" +
-        ".s-conf-tab{width:130px; height:40px; text-decoration: none; margin-right:2px; font-size:12px;display:block; float:left; text-align:center; border:1px solid #444; border-bottom:0;" +
-        "border-top-left-radius: 4px; border-top-right-radius: 4px; color:#444;margin: 0px 0px 0px;}" +
-        ".s-conf-tab.s-selected, .s-conf-tab:hover{background-color:#fff; text-decoration: none;}" +
+        ".s-conf-tab{height:40px; text-decoration: none; font-size:14px;display:block; text-align:center;" +
+        "color:#444;margin: 5px 2px 0px;}" +
+        "#s-conf-tabs li.s-selected, #s-conf-tabs li:hover {background-color:#fff;text-decoration:none;font-weight:bold; color: #333}" +
+        "#s-conf-tabs a:hover {text-decoration:none;font-weight:bold; color: #333}" +
         "#s-conf-form{display:block; background:#fff; padding:15px;}" +
         "#s-conf-form label{display:block;}" +
         ".s-conf-buttons{margin-top:8px; width:100%; text-align:center;}" +
@@ -941,10 +943,11 @@ function runScript(){
         }
 
         //Init Listeners
-        $j(".s-conf-tab").on("click", function(){
+        $j(".s-conf-tab").parent().on("click", function(){
             var tab = $j(this);
             if(!tab.hasClass("s-selected")){
-                $j(".s-conf-tab, .s-conf-page").removeClass("s-selected");
+                tab.siblings().removeClass('s-selected');
+                $j('.s-conf-page').removeClass("s-selected");
                 tab.addClass("s-selected");
                 $j(".s-conf-page#" + tab.data("page")).addClass("s-selected");
             }
