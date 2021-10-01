@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name Emp++ Tag Highlighter 0.8
-// @version 0.8.0
+// @name Emp++ Tag Highlighter 0.7.5
+// @version 0.7.5
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -24,7 +24,7 @@
 // ==/UserScript==
 
 // Changelog:
-// Version 0.8.0
+// Version 0.7.5
 // - Added Import/Export feature.
 // - Added [ESC] to close Tag Highlighter.
 // Version 0.7.3
