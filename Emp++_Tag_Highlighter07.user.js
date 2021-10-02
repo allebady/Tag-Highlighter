@@ -333,11 +333,11 @@ function runScript(){
         "<textarea readonly id='s-conf-text-disliked' class='s-conf-tag-txtarea'></textarea></label>" +
         "</div>" +
         "<div class='s-conf-page' id='s-conf-hated-tags'>" +
-        "<label title='Space-separated. big.tits also saves bigtits automatically'>Add Disliked Tags:<br/>" +
+        "<label title='Space-separated. big.tits also saves bigtits automatically'>Add Hated Tags:<br/>" +
         "<input id='s-conf-add-hated' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
         "<input class='s-conf-add-btn' data-type='hated' value='Add Tags' type='button'/>" +
         "</label><br/>" +
-        "<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Disliked Tags:<br/>" +
+        "<label title='Space-separated. big.tits also removes bigtits automatically'>Remove HatedTags:<br/>" +
         "<input id='s-conf-remove-hated' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
         "<input class='s-conf-remove-btn' data-type='hated' value='Remove Tags' type='button'/>" +
         "</label><br/>" +
