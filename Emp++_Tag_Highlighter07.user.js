@@ -25,6 +25,8 @@
 
 // Changelog:
 // Version 0.7.5b
+// - Cleaning up
+// Version 0.7.5
 // - Added Import/Export feature.
 // - Added [ESC] to close Tag Highlighter.
 // - Fixed some spelling mistakes
