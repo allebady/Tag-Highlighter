@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter 0.7
-// @version 0.7.5
+// @version 0.7.5b
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -24,7 +24,7 @@
 // ==/UserScript==
 
 // Changelog:
-// Version 0.7.5
+// Version 0.7.5b
 // - Added Import/Export feature.
 // - Added [ESC] to close Tag Highlighter.
 // - Fixed some spelling mistakes
@@ -59,9 +59,9 @@ function runScript(){
 
 	var defaults = {
 		majorVersion : 0.7,
-		//Options
+	//Options
 		truncateTags : true,
-		//Browse Page Options
+	//Browse Page Options
 		usePercentBar : false,
 		useTorrentOpacity : false,
 		useTorrentColoring : false,
