@@ -27,6 +27,7 @@
 // Version 0.7.5
 // - Added Import/Export feature.
 // - Added [ESC] to close Tag Highlighter.
+// - Fixed some spelling mistakes
 // Version 0.7.3
 // - Updated for better/more domain handling and added some updates suggested by SturmB:
 // - - Adds better support for Pornbay. (Subdomains and Tag-Config link)
