@@ -59,7 +59,7 @@ function runScript(){
     var $j = $.noConflict(true);
 
     var defaults = {
-        majorVersion : 0.8,
+        majorVersion : 0.7,
         //Options
         truncateTags : true,
         //Browse Page Options
