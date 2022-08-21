@@ -21,6 +21,10 @@
 // @match https://*.pornbay.org/*
 // @match http://pornbay.org/*
 // @match https://pornbay.org/*
+// @match http://*.enthralled.me/*
+// @match https://*.enthralled.me/*
+// @match http://enthralled.me/*
+// @match https://enthralled.me/*
 // ==/UserScript==
 
 // Changelog:
