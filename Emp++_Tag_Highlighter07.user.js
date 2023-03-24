@@ -1,35 +1,25 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter 0.7
-// @version 0.7.5d
+// @version 0.7.5e
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
 // @require https://code.jquery.com/jquery-1.12.4.min.js
-// @match http://*.empornium.me/*
-// @match https://*.empornium.me/*
-// @match http://empornium.me/*
-// @match https://empornium.me/*
-// @match http://*.empornium.is/*
-// @match https://*.empornium.is/*
-// @match http://empornium.is/*
-// @match https://empornium.is/*
-// @match http://*.empornium.sx/*
-// @match https://*.empornium.sx/*
-// @match http://empornium.sx/*
-// @match https://empornium.sx/*
-// @match http://*.pornbay.org/*
-// @match https://*.pornbay.org/*
-// @match http://pornbay.org/*
-// @match https://pornbay.org/*
-// @match http://*.enthralled.me/*
-// @match https://*.enthralled.me/*
-// @match http://enthralled.me/*
-// @match https://enthralled.me/*
+// @include /^https://www\.empornium\.(me|sx|is)/
+// @include /^https://www\.enthralled\.me/
+// @include /^https://pornbay\.org/
+// @include /^https://femdomcult\.org/
+// @include /^https://www\.homeporntorrents\.club/
 // ==/UserScript==
 
 // Changelog:
+// Version 0.7.5e
+// - Simplify website rules
+// - Fix old http links (Torrent Display Options)
+// - Add support for femdomcult.org
+// - Add support for homeporntorrents.club
 // Version 0.7.5d
-// Add support for enthralled.me
+// - Add support for enthralled.me
 // Version 0.7.5c
 // - Fixing some bugs that appear after the cleaning.
 // Version 0.7.5b
@@ -43,7 +33,7 @@
 // - - Adds better support for Pornbay. (Subdomains and Tag-Config link)
 // - - Updates jQuery to latest stable version on the v1 track.
 // Version 0.7.2
-// - Corrected a wrong placement of a 'amateur' instead of a 'loveamat' 
+// - Corrected a wrong placement of a 'amateur' instead of a 'loveamat'
 // Version 0.7.1
 // - Reorganized settings page to accommodate low resolution monitors
 // Version 0.7.0
@@ -131,15 +121,15 @@ function runScript(){
             useless : getValue("useless_tags", "").split(' ')
         };
         saveSettings();
-    }	
-	
-	
+    }
+
+
 	var configHTML =
 		"<div id='s-conf-background'>" +
 		"<div id='s-conf-wrapper'>" +
 		"<h1>Empornium++Tag Highlighter Settings</h1>" +
 		"<div id='s-conf-status'></div>" +
-		
+
 		// Tabs
 		"<div class='tab-row-container'" +
 		"<ul class='tab-row'>" +
@@ -190,11 +180,11 @@ function runScript(){
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useUselessTags'/> Use Useless Tag Type (Requires Disliked)</label>" +
 		"<br/><h2>Torrent Display Options:</h2>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='usePercentBar'/> Use Percent Bar <a>(View Example)</a>" +
-		"<img src='http://i.imgur.com/2U1Ei.png'/></label>" +
+		"<img src='https://i.imgur.com/2U1Ei.png'/></label>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentOpacity'/> Use Torrent Opacity <a>(View Example)</a>" +
-		"<img src='http://i.imgur.com/jDQIg.png'/></label>" +
+		"<img src='https://i.imgur.com/jDQIg.png'/></label>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentColoring'/> Use Torrent Coloring <a>(View Example)</a>" +
-		"<img src='http://i.imgur.com/kVXe7.png'/></label>" +
+		"<img src='https://i.imgur.com/kVXe7.png'/></label>" +
 		"<div class='s-conf-buttons'>" +
 		"<input id='s-conf-save' type='button' value='Save Settings'/>" +
 		"</div>" +
@@ -383,7 +373,7 @@ function runScript(){
 		"<div class='s-conf-page' id='s-conf-import-export'>" +
 		"<h3>Export Settings</h3>" +
 		"<hr>" +
-		"<p>To backup your settings, copy below text to a local file. You can import these settings in the Import Settings area.</p>" + 
+		"<p>To backup your settings, copy below text to a local file. You can import these settings in the Import Settings area.</p>" +
 		"<textarea id='export-settings-textarea' rows='10' cols='100' readonly></textarea><br><br>" +
 		"<br>" +
 		"<h3>Import Settings</h3>" +
@@ -391,7 +381,7 @@ function runScript(){
 		"<textarea id='import-settings-textarea' rows='10' cols='100' placeholder='Paste your exported settings here.'></textarea><br><br>" +
 		"<button id='import-settings-button'>Import Settings</button>" +
 		"</div>" +
-		// End Import/Export 
+		// End Import/Export
 		"</form>" +
 		"</div>" +
 		"<div class='s-conf-buttons'>" +
@@ -1063,12 +1053,12 @@ function runScript(){
 				$j(this).removeClass().addClass("s-" + type).html(msg + " <a id='s-conf-status-close'>(×)</a>").fadeIn("fast");
 			});
 		}
-	  
+
 		function refreshUI() {
 		  $j('#s-conf-background').remove();
 		  initConfig($j(configHTML).prependTo("body"));
 		}
-		
+
 	  // Import/export settings related code
 	  function importSettings(rawSettings) {
 		try {
@@ -1083,28 +1073,28 @@ function runScript(){
 		} catch (e) {
 		  throw e;
 		}
-	  } 
-		
+	  }
+
 		$j('#import-settings-button').on('click', (e) => {
 		  e.preventDefault();
 		  try {
 			const textArea = $j('#import-settings-textarea');
-			
+
 			importSettings(textArea.val());
-			
+
 			// Refresh UI with new settings.
 			refreshUI();
 			displayStatus("success", "Imported settings successfully.");
 		  } catch (e) {
 			displayStatus("error", `Unable to import settings: ${e.message}`)
 		  }
-		  
+
 		});
 
 		// Populate export settings textarea with settings
 		const ta = document.querySelector('#export-settings-textarea');
 		ta.textContent = JSON.stringify(getSettings());
-	  
+
 		// Escape closes ETH
 		$j(document).keyup(function(e) {
 			if (e.key === "Escape") {
