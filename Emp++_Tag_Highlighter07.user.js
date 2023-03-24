@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter 0.7
-// @version 0.7.5e
+// @version 0.7.6
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -13,6 +13,12 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.7.6
+// - A few improvements or changes that has been suggested.
+// - Added checkbox for showing the blacklisted notice.
+// - Removed the the feature of ignoring "." in tags for performance issues.
+//      note this will remove the "big.tits also saves bigtits automatically" feature
+// - Minor fixes
 // Version 0.7.5e
 // - Simplify website rules
 // - Fix old http links (Torrent Display Options)
@@ -65,6 +71,7 @@ function runScript(){
 		usePercentBar : false,
 		useTorrentOpacity : false,
 		useTorrentColoring : false,
+		useTorrentBlacklistNotice : true,
 	//Tag types to use
 		useGoodTags : false,
 		useLovedTags : false,
@@ -185,185 +192,186 @@ function runScript(){
 		"<img src='https://i.imgur.com/jDQIg.png'/></label>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentColoring'/> Use Torrent Coloring <a>(View Example)</a>" +
 		"<img src='https://i.imgur.com/kVXe7.png'/></label>" +
+		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentBlacklistNotice'/> Show Blacklisted Notices</label>" +																																   
 		"<div class='s-conf-buttons'>" +
 		"<input id='s-conf-save' type='button' value='Save Settings'/>" +
 		"</div>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-good-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Liked Tags:<br/>" +
-		"<input id='s-conf-add-good' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Liked Tags:<br/>" +
+		"<input id='s-conf-add-good' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='good' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Liked Tags:<br/>" +
-		"<input id='s-conf-remove-good' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Liked Tags:<br/>" +
+		"<input id='s-conf-remove-good' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='good' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Liked Tags - If enabled, these tags will be highlighted:</h2>" +
 		"<textarea readonly id='s-conf-text-good' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-loved-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Loved Tags:<br/>" +
-		"<input id='s-conf-add-loved' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Loved Tags:<br/>" +
+		"<input id='s-conf-add-loved' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='loved' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Loved Tags:<br/>" +
-		"<input id='s-conf-remove-loved' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Loved Tags:<br/>" +
+		"<input id='s-conf-remove-loved' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='loved' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Loved Tags - If enabled, these tags will be highlighted:</h2>" +
 		"<textarea readonly id='s-conf-text-loved' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-performer-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Performer Tags:<br/>" +
-		"<input id='s-conf-add-performer' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Performer Tags:<br/>" +
+		"<input id='s-conf-add-performer' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='performer' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Performer Tags:<br/>" +
-		"<input id='s-conf-remove-performer' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Performer Tags:<br/>" +
+		"<input id='s-conf-remove-performer' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='performer' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Performer Tags - If enabled, these tags will be highlighted:</h2>" +
 		"<textarea readonly id='s-conf-text-performer' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-loveperf-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Loved Performer Tags:<br/>" +
-		"<input id='s-conf-add-loveperf' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Loved Performer Tags:<br/>" +
+		"<input id='s-conf-add-loveperf' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='loveperf' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Performer Tags:<br/>" +
-		"<input id='s-conf-remove-loveperf' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Performer Tags:<br/>" +
+		"<input id='s-conf-remove-loveperf' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='loveperf' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Loved Performer Tags - If enabled, these tags will be highlighted:</h2>" +
 		"<textarea readonly id='s-conf-text-loveperf' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-newperf-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add New Performers Tags:<br/>" +
-		"<input id='s-conf-add-newperf' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add New Performers Tags:<br/>" +
+		"<input id='s-conf-add-newperf' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='newperf' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove New Performers Tags:<br/>" +
-		"<input id='s-conf-remove-newperf' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove New Performers Tags:<br/>" +
+		"<input id='s-conf-remove-newperf' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='newperf' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>New Performer Tags - If enabled, these tags will be highlighted:</h2>" +
 		"<textarea readonly id='s-conf-text-newperf' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-amateur-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Amateur Tags:<br/>" +
-		"<input id='s-conf-add-amateur' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Amateur Tags:<br/>" +
+		"<input id='s-conf-add-amateur' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='amateur' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Amateur Tags:<br/>" +
-		"<input id='s-conf-remove-amateur' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Amateur Tags:<br/>" +
+		"<input id='s-conf-remove-amateur' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='amateur' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Amateur Tags - If enabled, these tags will be highlighted :</h2>" +
 		"<textarea readonly id='s-conf-text-amateur' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-loveamat-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Loved Amateur Tags:<br/>" +
-		"<input id='s-conf-add-loveamat' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Loved Amateur Tags:<br/>" +
+		"<input id='s-conf-add-loveamat' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='loveamat' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Amateur Tags:<br/>" +
-		"<input id='s-conf-remove-loveamat' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Amateur Tags:<br/>" +
+		"<input id='s-conf-remove-loveamat' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='loveamat' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Loved Amateur Tags - If enabled, these tags will be highlighted :</h2>" +
 		"<textarea readonly id='s-conf-text-loveamat' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-maleperf-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Male Performers Tags:<br/>" +
-		"<input id='s-conf-add-maleperf' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Male Performers Tags:<br/>" +
+		"<input id='s-conf-add-maleperf' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='maleperf' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Male Performers Tags:<br/>" +
-		"<input id='s-conf-remove-maleperf' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Male Performers Tags:<br/>" +
+		"<input id='s-conf-remove-maleperf' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='maleperf' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Male Performer Tags - If enabled, these tags will be highlighted:</h2>" +
 		"<textarea readonly id='s-conf-text-maleperf' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-lovemale-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Loved Male Performers Tags:<br/>" +
-		"<input id='s-conf-add-lovemale' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Loved Male Performers Tags:<br/>" +
+		"<input id='s-conf-add-lovemale' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='lovemale' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Loved Male Performers Tags:<br/>" +
-		"<input id='s-conf-remove-lovemale' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Loved Male Performers Tags:<br/>" +
+		"<input id='s-conf-remove-lovemale' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='lovemale' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Loved Male Performer Tags - If enabled, these tags will be highlighted:</h2>" +
 		"<textarea readonly id='s-conf-text-lovemale' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-likesite-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Liked Site Tags:<br/>" +
-		"<input id='s-conf-add-likesite' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Liked Site Tags:<br/>" +
+		"<input id='s-conf-add-likesite' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='likesite' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Liked Site Tags:<br/>" +
-		"<input id='s-conf-remove-likesite' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Liked Site Tags:<br/>" +
+		"<input id='s-conf-remove-likesite' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='likesite' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Liked Site Tags - If enabled, these tags will be highlighted:</h2>" +
 		"<textarea readonly id='s-conf-text-likesite' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-lovesite-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Loved Site Tags:<br/>" +
-		"<input id='s-conf-add-lovesite' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Loved Site Tags:<br/>" +
+		"<input id='s-conf-add-lovesite' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='lovesite' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Loved Site Tags:<br/>" +
-		"<input id='s-conf-remove-lovesite' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Loved Site Tags:<br/>" +
+		"<input id='s-conf-remove-lovesite' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='lovesite' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Loved Site Tags - If enabled, these tags will be highlighted:</h2>" +
 		"<textarea readonly id='s-conf-text-lovesite' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-disliked-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Disliked Tags:<br/>" +
-		"<input id='s-conf-add-disliked' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Disliked Tags:<br/>" +
+		"<input id='s-conf-add-disliked' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='disliked' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Disliked Tags:<br/>" +
-		"<input id='s-conf-remove-disliked' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Disliked Tags:<br/>" +
+		"<input id='s-conf-remove-disliked' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='disliked' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Disliked Tags - If enabled, these tags will be highlighted:</h2>" +
 		"<textarea readonly id='s-conf-text-disliked' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-hated-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Hated Tags:<br/>" +
-		"<input id='s-conf-add-hated' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Hated Tags:<br/>" +
+		"<input id='s-conf-add-hated' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='hated' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove HatedTags:<br/>" +
-		"<input id='s-conf-remove-hated' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove HatedTags:<br/>" +
+		"<input id='s-conf-remove-hated' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='hated' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Hated Tags - If enabled, these tags will be highlighted:</h2>" +
 		"<textarea readonly id='s-conf-text-hated' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-terrible-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Blacklisted Tags:<br/>" +
-		"<input id='s-conf-add-terrible' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Blacklisted Tags:<br/>" +
+		"<input id='s-conf-add-terrible' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='terrible' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Blacklisted Tags:<br/>" +
-		"<input id='s-conf-remove-terrible' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Blacklisted Tags:<br/>" +
+		"<input id='s-conf-remove-terrible' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='terrible' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Blacklisted Tags - If enabled, torrents with these tags will be hidden:</h2>" +
 		"<textarea readonly id='s-conf-text-terrible' class='s-conf-tag-txtarea'></textarea></label>" +
 		"</div>" +
 		"<div class='s-conf-page' id='s-conf-useless-tags'>" +
-		"<label title='Space-separated. big.tits also saves bigtits automatically'>Add Useless Tags:<br/>" +
-		"<input id='s-conf-add-useless' class='s-conf-add-tags' type='text' placeholder='Space-separated. big.tits also saves bigtits automatically'/>" +
+		"<label title='Space-separated. '>Add Useless Tags:<br/>" +
+		"<input id='s-conf-add-useless' class='s-conf-add-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-add-btn' data-type='useless' value='Add Tags' type='button'/>" +
 		"</label><br/>" +
-		"<label title='Space-separated. big.tits also removes bigtits automatically'>Remove Useless Tags:<br/>" +
-		"<input id='s-conf-remove-useless' class='s-conf-remove-tags' type='text' placeholder='Space-separated. big.tits also removes bigtits automatically'/>" +
+		"<label title='Space-separated. '>Remove Useless Tags:<br/>" +
+		"<input id='s-conf-remove-useless' class='s-conf-remove-tags' type='text' placeholder='Space-separated. '/>" +
 		"<input class='s-conf-remove-btn' data-type='useless' value='Remove Tags' type='button'/>" +
 		"</label><br/>" +
 		"<label><h2>Useless Tags - If enabled, these tags will be hidden:</h2>" +
@@ -389,6 +397,7 @@ function runScript(){
 		"</div>" +
 		"</div>" +
 		"</div>";
+
 
 	var stylesheet = "<style type='text/css'>" +
 		//DEFAULT STYLE OVERRIDES
@@ -634,15 +643,17 @@ function runScript(){
 					if(!terribleNum){
 						var colspan = row.children().length;
 						row.hide();
-						$j("<tr class='tr11'></tr>").insertAfter(row).html(
-							"<td colspan='" + colspan + "' class='s-terrible-hidden'>" + capitaliseFirstLetter(type) +
-							" hidden because of the blacklisted tag: <strong>" + tag +
-							"</strong>. Click here to display the " + type + " listing.</td>").
-						on("click", function(){
-							$j(this).hide();
-							row.show();
-						});
-					}
+                        if ( settings.useTorrentBlacklistNotice ) {
+                            $j("<tr class='tr11'></tr>").insertAfter(row).html(
+                                "<td colspan='" + colspan + "' class='s-terrible-hidden'>" + capitaliseFirstLetter(type) +
+                                " hidden because of the blacklisted tag: <strong>" + tag +
+                                "</strong>. Click here to display the " + type + " listing.</td>").
+                            on("click", function(){
+                                $j(this).hide();
+                                row.show();
+                            });
+                        } // if
+                    } // if
 					terribleNum++;
 					badNum++;
 					tagLink.addClass("s-terrible s-disliked");
@@ -814,65 +825,65 @@ function runScript(){
 				if(settings.useGoodTags){
 					if(!settings.buttonGoodTags){
 						buttons = buttons.add($j("<div class='s-button s-add-good' title='Mark tag as LIKED'>+</div>").
-										  data("action", {fn : addTagElement, type : "good", tag : tag}));
+										data("action", {fn : addTagElement, type : "good", tag : tag}));
 					}
 					buttons = buttons.add($j("<div class='s-button s-remove-good' title='Un-Mark tag as LIKED'>–</div>").
-										  data("action", {fn : removeTagElement, type : "good", tag : tag}));
+										data("action", {fn : removeTagElement, type : "good", tag : tag}));
 				}
 				if(settings.useLovedTags){
-					buttons = buttons.add($j("<div class='s-button s-add-loved' title='Mark tag as LOVED'>+</div>").
-										  data("action", {fn : addLovedTagElement, type : "loved", tag : tag}));
-					buttons = buttons.add($j("<div class='s-button s-remove-loved' title='Un-Mark tag as LOVED'>–</div>").
-										  data("action", {fn : removeLovedTagElement, type : "loved", tag : tag}));
+					buttons = buttons.add($j("<div class='s-button s-add-loved' title='Upgrade tag to LOVED'>+</div>").
+										data("action", {fn : addLovedTagElement, type : "loved", tag : tag}));
+					buttons = buttons.add($j("<div class='s-button s-remove-loved' title='Downgrade tag from LOVED'>–</div>").
+										data("action", {fn : removeLovedTagElement, type : "loved", tag : tag}));
 				}
 				if(settings.usePerformerTags){
 					if(!settings.buttonPerformerTags){
 						buttons = buttons.add($j("<div class='s-button s-add-performer' title='Mark tag as Performer'>+</div>").
-										  data("action", {fn : addTagElement, type : "performer", tag : tag}));
+										data("action", {fn : addTagElement, type : "performer", tag : tag}));
 					}
 					buttons = buttons.add($j("<div class='s-button s-remove-performer' title='Un-Mark tag as Performer'>–</div>").
-										  data("action", {fn : removeTagElement, type : "performer", tag : tag}));
+										data("action", {fn : removeTagElement, type : "performer", tag : tag}));
 				}
 				if(settings.useLoveperfTags){
-					buttons = buttons.add($j("<div class='s-button s-add-loveperf' title='Mark tag as Loved Performer'>+</div>").
-										  data("action", {fn : addLoveperfTagElement, type : "loveperf", tag : tag}));
-					buttons = buttons.add($j("<div class='s-button s-remove-loveperf' title='Un-Mark tag as Loved Performer'>–</div>").
-										  data("action", {fn : removeLoveperfTagElement, type : "loveperf", tag : tag}));
+					buttons = buttons.add($j("<div class='s-button s-add-loveperf' title='Upgrade tag to Loved Performer'>+</div>").
+										data("action", {fn : addLoveperfTagElement, type : "loveperf", tag : tag}));
+					buttons = buttons.add($j("<div class='s-button s-remove-loveperf' title='Downgrade tag from Loved Performer'>–</div>").
+										data("action", {fn : removeLoveperfTagElement, type : "loveperf", tag : tag}));
 				}
 				if(settings.useNewperfTags){
 					if(!settings.buttonNewperfTags){
 						buttons = buttons.add($j("<div class='s-button s-add-newperf' title='Mark tag as New Performer'>+</div>").
-										  data("action", {fn : addTagElement, type : "newperf", tag : tag}));
+										data("action", {fn : addTagElement, type : "newperf", tag : tag}));
 					}
 					buttons = buttons.add($j("<div class='s-button s-remove-newperf' title='Un-Mark tag as New Performer'>–</div>").
-										  data("action", {fn : removeTagElement, type : "newperf", tag : tag}));
+										data("action", {fn : removeTagElement, type : "newperf", tag : tag}));
 				}
 				if(settings.useAmateurTags){
 					if(!settings.buttonAmateurTags){
 						buttons = buttons.add($j("<div class='s-button s-add-amateur' title='Mark tag as Amateur'>+</div>").
-										  data("action", {fn : addTagElement, type : "amateur", tag : tag}));
+										data("action", {fn : addTagElement, type : "amateur", tag : tag}));
 					}
-					buttons = buttons.add($j("<div class='s-button s-remove-amateur' title='Un-Mark tag as New Amateur'>–</div>").
-										  data("action", {fn : removeTagElement, type : "amateur", tag : tag}));
+					buttons = buttons.add($j("<div class='s-button s-remove-amateur' title='Un-Mark tag as Amateur'>–</div>").
+										data("action", {fn : removeTagElement, type : "amateur", tag : tag}));
 				}
 				if(settings.useLoveamatTags){
-					buttons = buttons.add($j("<div class='s-button s-add-loveamat' title='Mark tag as Loved Amateur'>+</div>").
-										  data("action", {fn : addLoveamatTagElement, type : "loveamat", tag : tag}));
-					buttons = buttons.add($j("<div class='s-button s-remove-loveamat' title='Un-Mark tag as Loved Amateur'>–</div>").
-										  data("action", {fn : removeLoveamatTagElement, type : "loveamat", tag : tag}));
+					buttons = buttons.add($j("<div class='s-button s-add-loveamat' title='Upgrade tag to Loved Amateur'>+</div>").
+										data("action", {fn : addLoveamatTagElement, type : "loveamat", tag : tag}));
+					buttons = buttons.add($j("<div class='s-button s-remove-loveamat' title='Downgrade tag from Loved Amateur'>–</div>").
+										data("action", {fn : removeLoveamatTagElement, type : "loveamat", tag : tag}));
 				}
 				if(settings.useMaleperfTags){
 					if(!settings.buttonMaleperfTags){
 					buttons = buttons.add($j("<div class='s-button s-add-maleperf' title='Mark tag as Male Performer'>+</div>").
-												data("action", {fn : addTagElement, type : "maleperf", tag : tag}));
+										data("action", {fn : addTagElement, type : "maleperf", tag : tag}));
 					}
 					buttons = buttons.add($j("<div class='s-button s-remove-maleperf' title='Un-Mark tag as Male Performer'>–</div>").
-									data("action", {fn : removeTagElement, type : "maleperf", tag : tag}));
+										data("action", {fn : removeTagElement, type : "maleperf", tag : tag}));
 				}
 				if(settings.useLovemaleTags){
-					buttons = buttons.add($j("<div class='s-button s-add-lovemale' title='Mark tag as Loved Male Performer'>+</div>").
+					buttons = buttons.add($j("<div class='s-button s-add-lovemale' title='Upgrade tag to Loved Male Performer'>+</div>").
 										data("action", {fn : addLovemaleTagElement, type : "lovemale", tag : tag}));
-					buttons = buttons.add($j("<div class='s-button s-remove-lovemale' title='Un-Mark tag as Loved Male Performer'>–</div>").
+					buttons = buttons.add($j("<div class='s-button s-remove-lovemale' title='Downgrade tag from Loved Male Performer'>–</div>").
 										data("action", {fn : removeLovemaleTagElement, type : "lovemale", tag : tag}));
 				}
 				if(settings.useLikesiteTags){
@@ -884,38 +895,39 @@ function runScript(){
 										data("action", {fn : removeTagElement, type : "likesite", tag : tag}));
 				}
 				if(settings.useLovesiteTags){
-					buttons = buttons.add($j("<div class='s-button s-add-lovesite' title='Mark tag as Loved Site'>+</div>").
+					buttons = buttons.add($j("<div class='s-button s-add-lovesite' title='Upgrade tag to Loved Site'>+</div>").
 										data("action", {fn : addLovesiteTagElement, type : "lovesite", tag : tag}));
-					buttons = buttons.add($j("<div class='s-button s-remove-lovesite' title='Un-Mark tag as Loved Site'>–</div>").
+					buttons = buttons.add($j("<div class='s-button s-remove-lovesite' title='Downgrade tag from Loved Site'>–</div>").
 										data("action", {fn : removeLovesiteTagElement, type : "lovesite", tag : tag}));
 				}
 				if(settings.useDislikedTags){
 					if(!settings.buttonDislikedTags){
 						buttons = buttons.add($j("<div class='s-button s-add-disliked' title='Mark tag as DISLIKED'>×</div>").
-							data("action", {fn : addTagElement, type : "disliked", tag : tag}));
+										data("action", {fn : addTagElement, type : "disliked", tag : tag}));
 					}
 					buttons = buttons.add($j("<div class='s-button s-remove-disliked' title='Un-Mark tag as DISLIKED'>–</div>").
-										  data("action", {fn : removeTagElement, type : "disliked", tag : tag}));
+										data("action", {fn : removeTagElement, type : "disliked", tag : tag}));
 				}
 				if(settings.useHatedTags){
 					buttons = buttons.add($j("<div class='s-button s-add-hated' title='Mark tag as HATED'>×</div>").
-										  data("action", {fn : addHatedTagElement, type : "hated", tag : tag}));
+										data("action", {fn : addHatedTagElement, type : "hated", tag : tag}));
 					buttons = buttons.add($j("<div class='s-button s-remove-hated' title='Un-Mark tag as HATED'>–</div>").
-										  data("action", {fn : removeHatedTagElement, type : "hated", tag : tag}));
+										data("action", {fn : removeHatedTagElement, type : "hated", tag : tag}));
 				}
 				if(settings.useTerribleTags){
 					buttons = buttons.add($j("<div class='s-button s-add-terrible' title='Mark tag as BLACKLISTED. \nTorrents with this tag will be hidden!'>!</div>").
-										  data("action", {fn : addTerribleTagElement, type : "terrible", tag : tag}));
+										data("action", {fn : addTerribleTagElement, type : "terrible", tag : tag}));
 					buttons = buttons.add($j("<div class='s-button s-remove-terrible' title='Un-Mark tag as BLACKLISTED'>–</div>").
-										  data("action", {fn : removeTerribleTagElement, type : "terrible", tag : tag}));
+										data("action", {fn : removeTerribleTagElement, type : "terrible", tag : tag}));
 				}
 				if(settings.useUselessTags){
 					buttons = buttons.add($j("<div class='s-button s-add-useless' title='Mark tag as USELESS. \nThis tag will be hidden from all torrents!'>-</div>").
-										  data("action", {fn : addUselessTagElement, type : "useless", tag : tag}));
+										data("action", {fn : addUselessTagElement, type : "useless", tag : tag}));
 					buttons = buttons.add($j("<div class='s-button s-remove-useless' title='Un-Mark tag as USELESS'>–</div>").
-										  data("action", {fn : removeUselessTagElement, type : "useless", tag : tag}));
+										data("action", {fn : removeUselessTagElement, type : "useless", tag : tag}));
 				}
 				$j(buttons).addClass("s-button").prependTo(tagHolder);
+
 
 				// create more horizontal space by hiding "tag action" placeholder spans
 				tagHolder.next().find("span:contains('\xa0\xa0\xa0')").hide();
@@ -1246,9 +1258,9 @@ function runScript(){
 		var allTags = [];
 		for(var i = 0, length = tagArray.length; i < length; i++){
 			var tag = tagArray[i];
-			if(/\./g.test(tag)){
-				allTags.push(tag.replace(".", ""));
-			}
+			//if(/\./g.test(tag)){
+			//	allTags.push(tag.replace(".", ""));
+			//}
 			allTags.push(tag);
 		}
 		return allTags;
