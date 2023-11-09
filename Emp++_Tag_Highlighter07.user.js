@@ -13,6 +13,8 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.7.6b
+// - Fixed a bug in Blacklisted tags not triggering properly
 // Version 0.7.6
 // - A few improvements or changes that has been suggested.
 // - Added checkbox for showing the blacklisted notice.
@@ -192,7 +194,7 @@ function runScript(){
 		"<img src='https://i.imgur.com/jDQIg.png'/></label>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentColoring'/> Use Torrent Coloring <a>(View Example)</a>" +
 		"<img src='https://i.imgur.com/kVXe7.png'/></label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentBlacklistNotice'/> Show Blacklisted Notices</label>" +																																   
+		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentBlacklistNotice'/> Show Blacklisted Notices</label>" +																																
 		"<div class='s-conf-buttons'>" +
 		"<input id='s-conf-save' type='button' value='Save Settings'/>" +
 		"</div>" +
@@ -590,7 +592,27 @@ function runScript(){
 				tagLink = tagLink.wrap("<span>").parent().addClass("s-tag");
 				tag = tag.toLowerCase();
 
-				if(settings.useLovedTags && isTag(settings.tags.loved, tag)){
+				if(settings.useTerribleTags && isTag(settings.tags.terrible, tag)){
+					if(!terribleNum){
+						var colspan = row.children().length;
+						row.hide();
+                        if ( settings.useTorrentBlacklistNotice ) {
+                            $j("<tr class='tr11'></tr>").insertAfter(row).html(
+                                "<td colspan='" + colspan + "' class='s-terrible-hidden'>" + capitaliseFirstLetter(type) +
+                                " hidden because of the blacklisted tag: <strong>" + tag +
+                                "</strong>. Click here to display the " + type + " listing.</td>").
+                            on("click", function(){
+                                $j(this).hide();
+                                row.show();
+                            });
+                        } // if
+                    } // if
+					terribleNum++;
+					badNum++;
+					tagLink.addClass("s-terrible s-disliked");
+				}
+
+				else if(settings.useLovedTags && isTag(settings.tags.loved, tag)){
 					goodNum++;
 					tagLink.addClass("s-loved");
 				}
@@ -638,25 +660,6 @@ function runScript(){
 				else if(settings.useHatedTags && isTag(settings.tags.hated, tag)){
 					badNum++;
 					tagLink.addClass("s-hated");
-				}
-				else if(settings.useTerribleTags && isTag(settings.tags.terrible, tag)){
-					if(!terribleNum){
-						var colspan = row.children().length;
-						row.hide();
-                        if ( settings.useTorrentBlacklistNotice ) {
-                            $j("<tr class='tr11'></tr>").insertAfter(row).html(
-                                "<td colspan='" + colspan + "' class='s-terrible-hidden'>" + capitaliseFirstLetter(type) +
-                                " hidden because of the blacklisted tag: <strong>" + tag +
-                                "</strong>. Click here to display the " + type + " listing.</td>").
-                            on("click", function(){
-                                $j(this).hide();
-                                row.show();
-                            });
-                        } // if
-                    } // if
-					terribleNum++;
-					badNum++;
-					tagLink.addClass("s-terrible s-disliked");
 				}
 				else if(settings.useUselessTags && isTag(settings.tags.useless, tag)){
 					totalTagNum--;
