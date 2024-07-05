@@ -533,7 +533,7 @@ function runScript(){
 		$j('#torrent_table').css('background-color',test);
 
 		// add config link
-		 $j("<li class='brackets' title=\"Change Empornium++Tag Highlighter's settings.\"><a href='#'>Tag-Config</a></li>").insertAfter(userInfoID).on("click", function(e){			e.preventDefault();
+		 $j("<li class='brackets' title=\"Change Empornium++Tag Highlighter's settings.\"><a href='#'>Tag-Config (beta)</a></li>").insertAfter(userInfoID).on("click", function(e){			e.preventDefault();
 			initConfig($j(configHTML).prependTo("body"));
 		});
 
