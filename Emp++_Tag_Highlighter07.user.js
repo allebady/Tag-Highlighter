@@ -13,6 +13,9 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.7.7
+// - Add options to ignore blacklist in bookmarks and/or collages.
+// - Do note that next update might be the 0.8.x-branch which might change lots of stuff from the 0.7.x
 // Version 0.7.6b
 // - Fixed a bug in Blacklisted tags not triggering properly
 // Version 0.7.6
@@ -74,6 +77,8 @@ function runScript(){
 		useTorrentOpacity : false,
 		useTorrentColoring : false,
 		useTorrentBlacklistNotice : true,
+		useBlacklistNoticeBookmark : false,
+		useBlacklistNoticeCollages : false,
 	//Tag types to use
 		useGoodTags : false,
 		useLovedTags : false,
@@ -194,7 +199,7 @@ function runScript(){
 		"<img src='https://i.imgur.com/jDQIg.png'/></label>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentColoring'/> Use Torrent Coloring <a>(View Example)</a>" +
 		"<img src='https://i.imgur.com/kVXe7.png'/></label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentBlacklistNotice'/> Show Blacklisted Notices</label>" +																																
+		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentBlacklistNotice'/> Show Blacklisted Notices</span><span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='useBlacklistNoticeBookmark'/> Ignore blacklist on Bookmarks Page</span> <span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='useBlacklistNoticeCollages'/> Ignore blacklist on Collages Page</span> <span></label>" +																																
 		"<div class='s-conf-buttons'>" +
 		"<input id='s-conf-save' type='button' value='Save Settings'/>" +
 		"</div>" +
@@ -592,21 +597,29 @@ function runScript(){
 				tagLink = tagLink.wrap("<span>").parent().addClass("s-tag");
 				tag = tag.toLowerCase();
 
-				if(settings.useTerribleTags && isTag(settings.tags.terrible, tag)){
-					if(!terribleNum){
-						var colspan = row.children().length;
-						row.hide();
-                        if ( settings.useTorrentBlacklistNotice ) {
-                            $j("<tr class='tr11'></tr>").insertAfter(row).html(
-                                "<td colspan='" + colspan + "' class='s-terrible-hidden'>" + capitaliseFirstLetter(type) +
-                                " hidden because of the blacklisted tag: <strong>" + tag +
-                                "</strong>. Click here to display the " + type + " listing.</td>").
-                            on("click", function(){
-                                $j(this).hide();
-                                row.show();
-                            });
-                        } // if
-                    } // if
+			if(settings.useTerribleTags && isTag(settings.tags.terrible, tag)){
+				if(window.location.href.indexOf("bookmarks")!=-1 && settings.useBlacklistNoticeBookmark ){
+				}				
+				else if(window.location.href.indexOf("collage")!=-1 && settings.useBlacklistNoticeCollages  ) {
+				}
+				else if(!terribleNum){	
+					var colspan = row.children().length;
+					row.hide();
+                        	if ( settings.useTorrentBlacklistNotice ) {
+                            		$j("<tr class='tr11'></tr>").insertAfter(row).html(
+                                	"<td colspan='" + colspan + "' class='s-terrible-hidden'>" + capitaliseFirstLetter(type) +
+                                	" hidden because of the blacklisted tag: <strong>" + tag +
+                                	"</strong>. Click here to display the " + type + " listing.</td>").
+                            		on("click", function(){
+                                	$j(this).hide();
+                                	row.show();
+                            		});
+                        		} // if
+                    		} // if
+					terribleNum++;
+					badNum++;
+					tagLink.addClass("s-terrible s-disliked");
+				}
 					terribleNum++;
 					badNum++;
 					tagLink.addClass("s-terrible s-disliked");
