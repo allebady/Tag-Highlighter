@@ -620,10 +620,6 @@ function runScript(){
 					badNum++;
 					tagLink.addClass("s-terrible s-disliked");
 				}
-					terribleNum++;
-					badNum++;
-					tagLink.addClass("s-terrible s-disliked");
-				}
 
 				else if(settings.useLovedTags && isTag(settings.tags.loved, tag)){
 					goodNum++;
