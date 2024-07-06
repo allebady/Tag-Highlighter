@@ -10,10 +10,12 @@
 // @include /^https://pornbay\.org/
 // @include /^https://femdomcult\.org/
 // @include /^https://www\.homeporntorrents\.club/
+// @updateURL https://github.com/allebady/Tag-Highlighter/blob/master/Emp%2B%2B_Tag_Highlighter08beta.user.js
 // ==/UserScript==
 
 // Changelog:
 // Version 0.8.0 beta1
+// Added UpdateURL to automate updates.
 // Replaced male with MILF
 // Add options to ignore blacklist in bookmarks and/or collages.
 // minor fixes (forgot what they were)
