@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter 0.7
-// @version 0.7.7
+// @version 0.7.8
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -13,6 +13,8 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.7.8
+// - Fixed new collage address
 // Version 0.7.7
 // - Add options to ignore blacklist in bookmarks and/or collages.
 // - Do note that next update might be the 0.8.x-branch which might change lots of stuff from the 0.7.x
@@ -548,7 +550,7 @@ function runScript(){
 			}
 		}
 		// collage details/overview
-		else if(/collages\.php/.test(window.location.href)){
+		else if(/collage/.test(window.location.href)){
 			processBrowsePage(".rowa, .rowb", "collage");
 		}
 		// subscribed collages with new additions
