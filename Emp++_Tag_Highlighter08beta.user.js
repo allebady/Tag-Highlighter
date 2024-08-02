@@ -10,7 +10,7 @@
 // @include /^https://pornbay\.org/
 // @include /^https://femdomcult\.org/
 // @include /^https://www\.homeporntorrents\.club/
-// @updateURL https://github.com/allebady/Tag-Highlighter/blob/master/Emp%2B%2B_Tag_Highlighter08beta.user.js
+// @updateURL https://raw.githubusercontent.com/allebady/Tag-Highlighter/master/Emp%2B%2B_Tag_Highlighter08beta.user.js
 // ==/UserScript==
 
 // Changelog:
