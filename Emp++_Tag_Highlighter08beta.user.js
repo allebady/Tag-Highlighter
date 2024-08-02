@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name Emp++ Tag Highlighter 0.8
-// @version 0.8.0.1
+// @name Emp++ Tag Highlighter 0.8 (beta)
+// @version 0.8.0.2
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -14,6 +14,9 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.8.0 beta2
+// - Removed Torrent Coloring and Torrent Opacity features due to issues with styles (sorry) Use Percent Bar instead
+// - Added options to use group coloring in Percent bar (Percent Bar 2.0)
 // Version 0.8.0 beta1
 // Added UpdateURL to automate updates.
 // Replaced male with MILF
@@ -77,8 +80,7 @@ function runScript(){
 		truncateTags : true,
 	//Browse Page Options
 		usePercentBar : false,
-		useTorrentOpacity : false,
-		useTorrentColoring : false,
+		usePercentMoreColors : false,
 		useTorrentBlacklistNotice : true,
 		useBlacklistNoticeBookmark : false,
 		useBlacklistNoticeCollages : false,
@@ -196,11 +198,8 @@ function runScript(){
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useUselessTags'/> Use Useless Tag Type (Requires Disliked)</label>" +
 		"<br/><h2>Torrent Display Options:</h2>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='usePercentBar'/> Use Percent Bar <a>(View Example)</a>" +
-		"<img src='https://i.imgur.com/2U1Ei.png'/></label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentOpacity'/> Use Torrent Opacity <a>(View Example)</a>" +
-		"<img src='https://i.imgur.com/jDQIg.png'/></label>" +
-		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentColoring'/> Use Torrent Coloring <a>(View Example)</a>" +
-		"<img src='https://i.imgur.com/kVXe7.png'/></label>" +
+		"<img src='https://jerking.empornium.ph/images/2024/07/23/2U1Ei.png'/></label>" +
+		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='usePercentMoreColors'/> Keep tag group colors instead of just good/bad" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentBlacklistNotice'/> Show Blacklisted Notices</span><span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='useBlacklistNoticeBookmark'/> Ignore blacklist on Bookmarks Page</span> <span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='useBlacklistNoticeCollages'/> Ignore blacklist on Collages Page</span> <span></label>" +		
 		"<div class='s-conf-buttons'>" +
 		"<input id='s-conf-save' type='button' value='Save Settings'/>" +
@@ -480,7 +479,21 @@ function runScript(){
 		".s-percent-container{height:4px; margin:2px 0; overflow:hidden; background:#ccc; border:1px solid #aaa;}" +
 		".s-percent{height:4px;}" +
 		".s-percent-good{background:#A9DF9C; float:left;}" +
+		".s-percent-loved{background:#3D9949; float:left;}" +
+		".s-percent-liked{background:#A9DF9C; float:left;}" +
+		".s-percent-performer{background:#769dc9; float:left;}" +
+		".s-percent-loveperf{background:#1c54d4; float:left;}" +
+		".s-percent-newperf{background:#f7d600; float:left;}" +
+		".s-percent-amateur{background:#00aba2; float:left;}" +
+		".s-percent-loveamat{background:#00f7ea; float:left;}" +
+		".s-percent-milfperf{background:#e86eed; float:left;}" +
+		".s-percent-lovemilf{background:#d01dd7; float:left;}" +
+		".s-percent-likesite{background:#f3af58; float:left;}" +
+		".s-percent-lovesite{background:#e58306; float:left;}" +	
 		".s-percent-bad{background:#9E3333; float:right}" +
+		".s-percent-disliked{background:#9E3333; float:right}" +
+		".s-percent-terrible{background:#333; float:right}" +
+
 		//DETAILS PAGE STYLES
 		".tag_inner .s-tag{background:#CCC; border-bottom:1px solid #888; border-radius:16px; padding:1px 5px;}" +
 		".tag_inner .s-tag> a{color:#000000}" +
@@ -587,7 +600,7 @@ function runScript(){
 				"line-height" : "18px"
 			}),
 				totalTagNum = tagContainer.find("a").length,
-				goodNum = 0, badNum = 0, terribleNum = 0, uselessNum = 0;
+				goodNum = 0, badNum = 0, terribleNum = 0, uselessNum = 0, lovedNum = 0, performerNum = 0, loveperfNum = 0, newperfNum = 0, amateurNum = 0,  loveamatNum = 0, milfperfNum = 0,  lovemilfNum = 0, likesiteNum = 0, lovesiteNum = 0, hatedNum = 0, likedNum = 0, dislikedNum = 0;
 
 			if(!totalTagNum){
 				return;
@@ -626,56 +639,69 @@ function runScript(){
                     } // if
 					terribleNum++;
 					badNum++;
+					hatedNum++;
 					tagLink.addClass("s-terrible s-disliked");
 				}
 
 				else if(settings.useLovedTags && isTag(settings.tags.loved, tag)){
 					goodNum++;
+					lovedNum++;
 					tagLink.addClass("s-loved");
 				}
 
 				else if(settings.useGoodTags && isTag(settings.tags.good, tag)){
 					goodNum++;
+					likedNum++;
 					tagLink.addClass("s-good");
 				}
 				else if(settings.useLoveperfTags && isTag(settings.tags.loveperf, tag)){
 					goodNum++;
+					loveperfNum++;
 					tagLink.addClass("s-loveperf");
 				}
 				else if(settings.usePerformerTags && isTag(settings.tags.performer, tag)){
 					goodNum++;
+					performerNum++;
 					tagLink.addClass("s-performer");
 				}
 				else if(settings.useNewperfTags && isTag(settings.tags.newperf, tag)){
 					goodNum++;
+					newperfNum++;
 					tagLink.addClass("s-newperf");
 				}
 				else if(settings.useLoveamatTags && isTag(settings.tags.loveamat, tag)){
 					goodNum++;
+					loveamatNum++;
 					tagLink.addClass("s-loveamat");
 				}
 				else if(settings.useAmateurTags && isTag(settings.tags.amateur, tag)){
 					goodNum++;
+					amateurNum++;
 					tagLink.addClass("s-amateur");
 				}
 				else if(settings.useLovemilfTags && isTag(settings.tags.lovemilf, tag)){
 					goodNum++;
+					lovemilfNum++;
 					tagLink.addClass("s-lovemilf");
 				}
 				else if(settings.useMilfperfTags && isTag(settings.tags.milfperf, tag)){
 					goodNum++;
+					milfperfNum++;
 					tagLink.addClass("s-milfperf");
 				}
 				else if(settings.useLovesiteTags && isTag(settings.tags.lovesite, tag)){
 					goodNum++;
+					lovesiteNum++;
 					tagLink.addClass("s-lovesite");
 				}
 				else if(settings.useLikesiteTags && isTag(settings.tags.likesite, tag)){
 					goodNum++;
+					likesiteNum++;
 					tagLink.addClass("s-likesite");
 				}
 				else if(settings.useHatedTags && isTag(settings.tags.hated, tag)){
 					badNum++;
+					hatedNum++;
 					tagLink.addClass("s-hated");
 				}
 				else if(settings.useUselessTags && isTag(settings.tags.useless, tag)){
@@ -684,6 +710,7 @@ function runScript(){
 				}
 				else if(settings.useDislikedTags && isTag(settings.tags.disliked, tag)){
 					badNum++;
+					dislikedNum++;
 					tagLink.addClass("s-disliked");
 				}
 
@@ -692,37 +719,45 @@ function runScript(){
 			var goodPercent = Math.round(goodNum/totalTagNum * 100);
 			var badPercent = Math.round(badNum/totalTagNum * 100);
 
-			if(settings.usePercentBar){
+			var likedPercent = Math.round(likedNum/totalTagNum * 100);
+			var dislikedPercent = Math.round(dislikedNum/totalTagNum * 100);			
+			var lovedPercent = Math.round(lovedNum/totalTagNum * 100);
+			var performerPercent = Math.round(performerNum/totalTagNum * 100);
+			var loveperfPercent = Math.round(loveperfNum/totalTagNum * 100);
+			var newperfPercent = Math.round(newperfNum/totalTagNum * 100);
+			var amateurPercent = Math.round(amateurNum/totalTagNum * 100); 
+			var loveamatPercent = Math.round(loveamatNum/totalTagNum * 100);
+			var milfperfPercent = Math.round(milfperfNum/totalTagNum * 100); 
+			var lovemilfPercent = Math.round(lovemilfNum/totalTagNum * 100);
+			var likesitePercent = Math.round(likesiteNum/totalTagNum * 100);
+			var lovesitePercent = Math.round(lovesiteNum/totalTagNum * 100);
+			var dislikedPercent = Math.round(dislikedNum/totalTagNum * 100);
+			var hatedPercent = Math.round(hatedNum/totalTagNum * 100);
+
+
+
+			if(settings.usePercentBar&& !settings.usePercentMoreColors){
 				var percentContainer = $j("<div class='s-percent-container'></div>)").insertBefore(tagContainer);
 				percentContainer.width(tagContainer.parent().width() - 2);
 				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-good").width(goodPercent + "%");
 				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-bad").width(badPercent + "%");
 			}
-
-			if(settings.useTorrentOpacity && badPercent > goodPercent){
-				//opacity range: 0.5 - 1
-				row.css("opacity", (100 - ((badPercent - goodPercent)/2))/100);
-			}
-
-			if(settings.useTorrentColoring){
-				//range -1 to 1
-				var netPercent = (goodPercent - badPercent)/100;
-				var absPercent = Math.abs(netPercent);
-				var green = [120, 200, 120];
-				var red = [210, 120, 120];
-				var color;
-				if(netPercent > 0){
-					color= green;
-				}
-				else if(netPercent < 0){
-					color = red;
-				}
-				else{
-					//color = [239,243,246];
-				}
-				if(color && !row.hasClass("redbar") && /torrents\.php/.test(window.location.href) && !/userid\=/.test(window.location.href)){
-					row.css({"background-color" : "rgba("+color[0]+","+color[1]+","+color[2]+","+absPercent+""});
-				}
+			if(settings.usePercentMoreColors && settings.usePercentBar){
+				var percentContainer = $j("<div class='s-percent-container'></div>)").insertBefore(tagContainer);
+				percentContainer.width(tagContainer.parent().width() - 2);
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-liked").width(likedPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-loved").width(lovedPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-performer").width(performerPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-loveperf").width(loveperfPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-newperf").width(newperfPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-amateur").width(amateurPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-loveamat").width(loveamatPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-milfperf").width(milfperfPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-lovemilf").width(lovemilfPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-likesite").width(likesitePercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-lovesite").width(lovesitePercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-disliked").width(dislikedPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-terrible").width(hatedPercent + "%");
 			}
 		});
 	}
