@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter 0.8 (beta)
-// @version 0.8.0.2
+// @version 0.8.0.3
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -10,10 +10,12 @@
 // @include /^https://pornbay\.org/
 // @include /^https://femdomcult\.org/
 // @include /^https://www\.homeporntorrents\.club/
-// @updateURL https://raw.githubusercontent.com/allebady/Tag-Highlighter/master/Emp%2B%2B_Tag_Highlighter08beta.user.js
+// @updateURL https://github.com/allebady/Tag-Highlighter/blob/master/Emp%2B%2B_Tag_Highlighter08beta.user.js
 // ==/UserScript==
 
 // Changelog:
+// Version 0.8.0 beta3
+// - test-fix for notifications not properly working
 // Version 0.8.0 beta2
 // - Removed Torrent Coloring and Torrent Opacity features due to issues with styles (sorry) Use Percent Bar instead
 // - Added options to use group coloring in Percent bar (Percent Bar 2.0)
@@ -562,13 +564,13 @@ function runScript(){
 				processBrowsePage(".torrent", "torrent");
 			}
 		}
-		// collage details/overview
-		else if(/collage/.test(window.location.href)){
-			processBrowsePage(".rowa, .rowb", "collage");
-		}
 		// subscribed collages with new additions
 		else if(/userhistory\.php(.+)\bsubscribed_collages/.test(window.location.href)){
 			processBrowsePage(".torrent", "torrent");
+		}
+		// collage details/overview
+		else if(/collage/.test(window.location.href)){
+			processBrowsePage(".rowa, .rowb", "collage");
 		}
 		// user details
 		else if(/user\.php(.+)\bid\=/.test(window.location.href)){
