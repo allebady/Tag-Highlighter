@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter 0.7
-// @version 0.7.8
+// @version 0.7.9
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -13,6 +13,8 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.7.9
+// - test-fix for notifications not properly working
 // Version 0.7.8
 // - Fixed new collage address
 // Version 0.7.7
