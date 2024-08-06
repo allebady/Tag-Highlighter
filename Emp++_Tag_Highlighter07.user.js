@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter 0.7
-// @version 0.7.9
+// @version 0.7.9b
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -13,8 +13,8 @@
 // ==/UserScript==
 
 // Changelog:
-// Version 0.7.9
-// - test-fix for notifications not properly working
+// Version 0.7.9(b)
+// - fix for notifications not properly working
 // Version 0.7.8
 // - Fixed new collage address
 // Version 0.7.7
@@ -551,13 +551,13 @@ function runScript(){
 				processBrowsePage(".torrent", "torrent");
 			}
 		}
-		// collage details/overview
-		else if(/collage/.test(window.location.href)){
-			processBrowsePage(".rowa, .rowb", "collage");
-		}
 		// subscribed collages with new additions
 		else if(/userhistory\.php(.+)\bsubscribed_collages/.test(window.location.href)){
 			processBrowsePage(".torrent", "torrent");
+		}
+		// collage details/overview
+		else if(/collage/.test(window.location.href)){
+			processBrowsePage(".rowa, .rowb", "collage");
 		}
 		// user details
 		else if(/user\.php(.+)\bid\=/.test(window.location.href)){
