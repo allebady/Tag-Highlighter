@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Emp++ Tag Highlighter 0.8 (beta)
-// @version 0.8.0.4
+// @version 0.8.0.5
 // @description highlights liked/disliked tags
 // @grant GM_getValue
 // @grant GM_setValue
@@ -14,6 +14,8 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.8.0 beta5
+// - added (testing) options to hide torrents with bad score. For now its less than -5 it (should) trigger on.
 // Version 0.8.0 beta4
 // - Updated the updateURL-link to one that hopefully work better.
 // Version 0.8.0 beta3
@@ -88,6 +90,7 @@ function runScript(){
 		useTorrentBlacklistNotice : true,
 		useBlacklistNoticeBookmark : false,
 		useBlacklistNoticeCollages : false,
+		useBadvaluehide : false,
 	//Tag types to use
 		useGoodTags : false,
 		useLovedTags : false,
@@ -205,6 +208,7 @@ function runScript(){
 		"<img src='https://jerking.empornium.ph/images/2024/07/23/2U1Ei.png'/></label>" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='usePercentMoreColors'/> Keep tag group colors instead of just good/bad" +
 		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useTorrentBlacklistNotice'/> Show Blacklisted Notices</span><span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='useBlacklistNoticeBookmark'/> Ignore blacklist on Bookmarks Page</span> <span> \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 </span><span><input class='s-conf-gen-checkbox' type='checkbox' name='useBlacklistNoticeCollages'/> Ignore blacklist on Collages Page</span> <span></label>" +		
+		"<label><input class='s-conf-gen-checkbox' type='checkbox' name='useBadvaluehide'/> Hide (very) negative torrents " +
 		"<div class='s-conf-buttons'>" +
 		"<input id='s-conf-save' type='button' value='Save Settings'/>" +
 		"</div>" +
@@ -606,6 +610,7 @@ function runScript(){
 				totalTagNum = tagContainer.find("a").length,
 				goodNum = 0, badNum = 0, terribleNum = 0, uselessNum = 0, lovedNum = 0, performerNum = 0, loveperfNum = 0, newperfNum = 0, amateurNum = 0,  loveamatNum = 0, milfperfNum = 0,  lovemilfNum = 0, likesiteNum = 0, lovesiteNum = 0, hatedNum = 0, likedNum = 0, dislikedNum = 0;
 
+
 			if(!totalTagNum){
 				return;
 			}
@@ -615,6 +620,7 @@ function runScript(){
 
 				tagLink = tagLink.wrap("<span>").parent().addClass("s-tag");
 				tag = tag.toLowerCase();
+
 
 				if(settings.useTerribleTags && isTag(settings.tags.terrible, tag)){
 								
@@ -630,22 +636,48 @@ function runScript(){
 					else if(!terribleNum){	
 						var colspan = row.children().length;
 						row.hide();
-                        if ( settings.useTorrentBlacklistNotice ) {
-                            $j("<tr class='tr11'></tr>").insertAfter(row).html(
-                                "<td colspan='" + colspan + "' class='s-terrible-hidden'>" + capitaliseFirstLetter(type) +
-                                " hidden because of the blacklisted tag: <strong>" + tag +
-                                "</strong>. Click here to display the " + type + " listing.</td>").
-                            on("click", function(){
-                                $j(this).hide();
-                                row.show();
-                            });
-                        } // if
-                    } // if
+							if ( settings.useTorrentBlacklistNotice ) {
+								$j("<tr class='tr11'></tr>").insertAfter(row).html(
+								"<td colspan='" + colspan + "' class='s-terrible-hidden'>" + capitaliseFirstLetter(type) +
+								" hidden because of the blacklisted tag: <strong>" + tag +
+								"</strong>. Click here to display the " + type + " listing.</td>").
+								on("click", function(){
+								 $j(this).hide();
+								row.show();
+                testPrintForTest();
+						if(settings.usePercentBar&& !settings.usePercentMoreColors){
+								var percentContainer = $j("<div class='s-percent-container'></div>").insertBefore(tagContainer);
+								percentContainer.width(tagContainer.parent().width() - 2);
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-good").width(goodPercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-bad").width(badPercent + "%");
+						}
+						if(settings.usePercentMoreColors && settings.usePercentBar){
+								var percentContainer = $j("<div class='s-percent-container'></div>").insertBefore(tagContainer);
+								percentContainer.width(tagContainer.parent().width() - 2);
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-liked").width(likedPercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-loved").width(lovedPercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-performer").width(performerPercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-loveperf").width(loveperfPercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-newperf").width(newperfPercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-amateur").width(amateurPercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-loveamat").width(loveamatPercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-milfperf").width(milfperfPercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-lovemilf").width(lovemilfPercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-likesite").width(likesitePercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-lovesite").width(lovesitePercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-disliked").width(dislikedPercent + "%");
+								$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-terrible").width(hatedPercent + "%");
+						}
+								});
+							} // if
+						} // if
 					terribleNum++;
 					badNum++;
 					hatedNum++;
 					tagLink.addClass("s-terrible s-disliked");
 				}
+
+
 
 				else if(settings.useLovedTags && isTag(settings.tags.loved, tag)){
 					goodNum++;
@@ -719,6 +751,8 @@ function runScript(){
 				}
 
 
+
+
 			});
 			var goodPercent = Math.round(goodNum/totalTagNum * 100);
 			var badPercent = Math.round(badNum/totalTagNum * 100);
@@ -729,25 +763,22 @@ function runScript(){
 			var performerPercent = Math.round(performerNum/totalTagNum * 100);
 			var loveperfPercent = Math.round(loveperfNum/totalTagNum * 100);
 			var newperfPercent = Math.round(newperfNum/totalTagNum * 100);
-			var amateurPercent = Math.round(amateurNum/totalTagNum * 100); 
+			var amateurPercent = Math.round(amateurNum/totalTagNum * 100);
 			var loveamatPercent = Math.round(loveamatNum/totalTagNum * 100);
-			var milfperfPercent = Math.round(milfperfNum/totalTagNum * 100); 
+			var milfperfPercent = Math.round(milfperfNum/totalTagNum * 100);
 			var lovemilfPercent = Math.round(lovemilfNum/totalTagNum * 100);
 			var likesitePercent = Math.round(likesiteNum/totalTagNum * 100);
 			var lovesitePercent = Math.round(lovesiteNum/totalTagNum * 100);
-			var dislikedPercent = Math.round(dislikedNum/totalTagNum * 100);
 			var hatedPercent = Math.round(hatedNum/totalTagNum * 100);
 
-
-
 			if(settings.usePercentBar&& !settings.usePercentMoreColors){
-				var percentContainer = $j("<div class='s-percent-container'></div>)").insertBefore(tagContainer);
+				var percentContainer = $j("<div class='s-percent-container'></div>").insertBefore(tagContainer);
 				percentContainer.width(tagContainer.parent().width() - 2);
 				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-good").width(goodPercent + "%");
 				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-bad").width(badPercent + "%");
 			}
 			if(settings.usePercentMoreColors && settings.usePercentBar){
-				var percentContainer = $j("<div class='s-percent-container'></div>)").insertBefore(tagContainer);
+				var percentContainer = $j("<div class='s-percent-container'></div>").insertBefore(tagContainer);
 				percentContainer.width(tagContainer.parent().width() - 2);
 				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-liked").width(likedPercent + "%");
 				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-loved").width(lovedPercent + "%");
@@ -763,6 +794,30 @@ function runScript(){
 				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-disliked").width(dislikedPercent + "%");
 				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-terrible").width(hatedPercent + "%");
 			}
+
+
+
+				if(settings.useBadvaluehide){
+					console.log("badvalue running");
+					var netPercent = (goodNum - badNum - hatedNum - hatedNum);
+//          console.log(netPercent);
+					if(netPercent < -5){	
+//            console.log("torrent hidden");
+						var colspan = row.children().length;
+						row.hide();
+                        if ( settings.useTorrentBlacklistNotice ) {
+                            $j("<tr class='tr12'></tr>").insertAfter(row).html(
+                                "<td colspan='" + colspan + "' class='s-terrible-hidden'>" + capitaliseFirstLetter(type) +
+                                " hidden because of the negative value: <strong>"+ netPercent +
+                                "</strong>. Click here to display the " + type + " listing.</td>").
+                            on("click", function(){
+                                $j(this).hide();
+                               row.show();
+
+                  });
+               } // if
+					}
+				}
 		});
 	}
 
@@ -1328,6 +1383,39 @@ function runScript(){
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	}
 }
+
+function testPrintForTest(){
+  				console.log("testprint running");
+}
+
+function basicPercentContainer(){
+				var percentContainer = $j("<div class='s-percent-container'></div>").insertBefore(tagContainer);
+				percentContainer.width(tagContainer.parent().width() - 2);
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-good").width(goodPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-bad").width(badPercent + "%");
+			}
+
+
+function colorPercentContainer(){
+				var percentContainer = $j("<div class='s-percent-container'></div>").insertBefore(tagContainer);
+				percentContainer.width(tagContainer.parent().width() - 2);
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-liked").width(likedPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-loved").width(lovedPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-performer").width(performerPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-loveperf").width(loveperfPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-newperf").width(newperfPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-amateur").width(amateurPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-loveamat").width(loveamatPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-milfperf").width(milfperfPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-lovemilf").width(lovemilfPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-likesite").width(likesitePercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-lovesite").width(lovesitePercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-disliked").width(dislikedPercent + "%");
+				$j("<div></div>").appendTo(percentContainer).addClass("s-percent s-percent-terrible").width(hatedPercent + "%");
+			}
+
+
+
 
 if(typeof jQuery == "undefined"){
 	addJQuery(runScript);
