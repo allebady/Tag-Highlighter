@@ -399,6 +399,7 @@ function runScript(){
 		"<hr><br>" +
 		"<textarea id='import-settings-textarea' rows='10' cols='100' placeholder='Paste your exported settings here.'></textarea><br><br>" +
 		"<button id='import-settings-button'>Import Settings</button>" +
+        "<button id='merge-settings-button'>Merge Tag Settings</button>" +
 		"</div>" +
 		// End Import/Export
 		"</form>" +
@@ -1119,6 +1120,59 @@ function runScript(){
 
 		});
 
+        const merge = (a, b, predicate = (a, b) => a === b) => {
+            const c = [...a]; // copy to avoid side effects
+            // add all items from B to copy C if they're not already present
+            b.forEach((bItem) => (c.some((cItem) => predicate(bItem, cItem)) ? null : c.push(bItem)))
+            return c;
+        }
+
+        function mergeSettings(rawSettings) {
+            try {
+                const trimmedSettings = rawSettings.trim();
+                if (trimmedSettings.length === 0) {
+                    throw new Error('Settings empty.');
+                }
+                const importedSettings = JSON.parse(trimmedSettings);
+                settings.tags = {
+                    good : merge(settings.tags.good,importedSettings.tags.good),
+                    loved : merge(settings.tags.loved,importedSettings.tags.loved),
+                    performer : merge(settings.tags.performer,importedSettings.tags.performer),
+                    loveperf : merge(settings.tags.loveperf,importedSettings.tags.loveperf),
+                    newperf : merge(settings.tags.newperf,importedSettings.tags.newperf),
+                    amateur : merge(settings.tags.amateur,importedSettings.tags.amateur),
+                    loveamat : merge(settings.tags.loveamat,importedSettings.tags.loveamat),
+                    maleperf : merge(settings.tags.maleperf,importedSettings.tags.maleperf),
+                    lovemale : merge(settings.tags.lovemale,importedSettings.tags.lovemale),
+                    likesite : merge(settings.tags.likesite,importedSettings.tags.likesite),
+                    lovesite : merge(settings.tags.lovesite,importedSettings.tags.lovesite),
+                    disliked : merge(settings.tags.disliked,importedSettings.tags.disliked),
+                    hated : merge(settings.tags.hated,importedSettings.tags.hated),
+                    terrible : merge(settings.tags.terrible,importedSettings.tags.terrible),
+                    useless : merge(settings.tags.useless,importedSettings.tags.useless)
+                };
+                saveSettings();
+            } catch (e) {
+                throw e;
+            }
+        }
+
+		$j('#merge-settings-button').on('click', (e) => {
+		  e.preventDefault();
+		  try {
+			const textArea = $j('#import-settings-textarea');
+
+			mergeSettings(textArea.val());
+
+			// Refresh UI with new settings.
+			refreshUI();
+			displayStatus("success", "Merged settings successfully.");
+		  } catch (e) {
+			displayStatus("error", `Unable to merge settings: ${e.message}`)
+		  }
+
+		});
+
 		// Populate export settings textarea with settings
 		const ta = document.querySelector('#export-settings-textarea');
 		ta.textContent = JSON.stringify(getSettings());
@@ -1303,3 +1357,4 @@ function addJQuery(callback) {
 	}, false);
 	document.body.appendChild(script);
 }
+
