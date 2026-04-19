@@ -5,7 +5,8 @@
 // @grant GM_getValue
 // @grant GM_setValue
 // @require https://code.jquery.com/jquery-1.12.4.min.js
-// @include /^https://www\.empornium\.(me|sx|is)/
+// @include /^https://www\.empornium\.sx/
+// @include /^https://emparadise\.rs/
 // @include /^https://www\.enthralled\.me/
 // @include /^https://pornbay\.org/
 // @include /^https://femdomcult\.org/
