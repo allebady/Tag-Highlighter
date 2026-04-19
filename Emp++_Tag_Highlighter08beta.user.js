@@ -15,6 +15,8 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.8.0 beta6
+// Updated domains
 // Version 0.8.0 beta5
 // - added (testing) options to hide torrents with bad score. For now its less than -5 it (should) trigger on.
 // Version 0.8.0 beta4
