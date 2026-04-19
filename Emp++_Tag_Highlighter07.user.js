@@ -14,6 +14,8 @@
 // ==/UserScript==
 
 // Changelog:
+// Version 0.7.9(c)
+// Updated domains
 // Version 0.7.9(b)
 // - fix for notifications not properly working
 // Version 0.7.8
